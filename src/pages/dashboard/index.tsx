@@ -1,7 +1,7 @@
 import { AiOutlineUser, AiOutlineSetting } from "react-icons/ai";
 import { VscNewFolder, VscFolder } from "react-icons/vsc";
 import Link from "next/link";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 
 const Dashboard: NextPage = () => {
   return (

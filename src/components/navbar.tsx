@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useClerk, useUser } from "@clerk/nextjs";
+import { SignOutButton, useClerk, useUser } from "@clerk/nextjs";
 
 export const Navbar = () => {
   const clerk = useClerk();
@@ -28,12 +28,11 @@ export const Navbar = () => {
           </span>
         )}
         {!!user.isSignedIn && (
-          <button
-            className="px-4 py-1 ease-out duration-300  hover:text-yellow-200"
-            onClick={() => clerk.signOut({})}
-          >
-            Sign out
-          </button>
+          <a className="px-4 py-1 ease-out duration-300  hover:text-yellow-200">
+            <SignOutButton>
+              Sign out
+            </SignOutButton>
+          </a>
         )}
       </div>
     </div>
