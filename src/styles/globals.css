@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-black-600
+  }
+  body {
+    @apply m-0 p-0
+  }
+}
+
+body {
+  background-image: radial-gradient(#504945 1px, transparent 0);
+  background-size: 35px 35px;
+  background-position: -16px -16px;
+}
+
+input {
+  -webkit-background-clip: text;
+}
