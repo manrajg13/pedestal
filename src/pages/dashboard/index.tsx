@@ -20,23 +20,23 @@ const Dashboard: NextPage = () => {
 
         <div className="float-right flex">
           <span>
-            <button className="rounded border-[1px] border-white-100/25 p-2 text-white-100/50 hover:bg-white-100/10">
-              <AiOutlineSetting />
+            <button className="flex rounded border-[1px] border-white-100/25 p-2 text-white-100/50 hover:bg-white-100/10">
+              <AiOutlineSetting className="mt-1" />
+              <span>&nbsp;Settings</span>
             </button>
           </span>
-          <span>
-          </span>
+          <span></span>
         </div>
       </div>
 
       <div className="mt-16 grid grid-cols-2 gap-x-4 gap-y-4 min-[1100px]:grid-cols-4">
         <div className="group h-[360px] w-auto rounded bg-white-100/[5%] hover:cursor-pointer hover:bg-yellow-200">
-          <div className="flex rounded-tl-sm rounded-tr-sm w-[100%] h-[170px] bg-white-100/[15%]">
+          <div className="flex h-[170px] w-[100%] rounded-tl-sm rounded-tr-sm bg-white-100/[15%]">
             <GoCode className="mx-auto my-auto text-9xl text-white-100/50" />
           </div>
           <div className="inline-flex pb-3">
-            <div className="pt-4 pl-5 text-white-100 group-hover:text-black-500">
-              <span className="mr-2 text-sm font-semibold">
+            <div className="pt-4 pl-5 group-hover:text-black-500">
+              <span className="mr-2 text-sm font-semibold text-white-100">
                 Portfolio Showcase
               </span>
               <div className="w-[90%] text-white-100/75 group-hover:text-black-500">
@@ -59,7 +59,10 @@ const Dashboard: NextPage = () => {
           </div>
         </div>
 
-        <Link href="/new" className="group flex h-[360px] w-auto rounded border-[1px] border-dashed border-white-100/50 hover:cursor-pointer hover:border-yellow-200">
+        <Link
+          href="/new"
+          className="group flex h-[360px] w-auto rounded border-[1px] border-dashed border-white-100/50 hover:cursor-pointer hover:border-yellow-200"
+        >
           <div className="mx-auto my-auto inline-flex pb-3">
             <span className="text-8xl text-white-100/50 group-hover:text-yellow-200 max-[648px]:hidden">
               <VscNewFolder />
