@@ -48,7 +48,7 @@ const NewProject: NextPage = () => {
             <div className="w-[25px] mt-[3px] text-yellow-200 text-lg">
               <MdPhotoAlbum className="mx-auto" />
             </div>
-            <span>&nbsp;Photography Album</span>
+            <span>&nbsp;Photo Album</span>
           </Link>
         </div>
       </form>

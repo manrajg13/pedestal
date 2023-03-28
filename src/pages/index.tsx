@@ -14,13 +14,13 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex h-screen">
-        <div className="ml-80 my-auto pt-16">
+        <div className="ml-40 my-auto pt-16">
           <div className="z-0 mb-10 text-[4.9rem] font-bold leading-none text-white-100">
 
-            <div className="absolute z-10 ml-[270px] mt-[-95px] h-[260px] w-[365px] bg-yellow-200"></div>
-            <div className="absolute z-30 ml-[240px] mt-[-80px] h-[470px] w-[340px] bg-black-500"></div>
-            <div className="absolute z-20 ml-[263px] mt-[-72px] h-[470px] w-[340px] bg-orange-200"></div>
-
+            <div className="absolute z-10 ml-[280px] mt-[-105px] h-[300px] w-[380px] bg-yellow-200"></div>
+            <div className="absolute z-30 ml-[240px] mt-[-80px] h-[490px] w-[340px] bg-black-500"></div>
+            <div className="absolute z-20 ml-[263px] mt-[-70px] h-[265px] w-[330px] bg-orange-200"></div>
+            <div className="absolute z-40 ml-[250px] mt-[-70px] h-[470px] w-[320px] border-[1px] border-white-100/50 border-dashed"></div>
             <div className="relative z-40 min-w-[620px]">
               <span className="text-yellow-200">&#60;</span>
               <span>Get Noticed</span>
