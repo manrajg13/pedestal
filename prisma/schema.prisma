@@ -10,16 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
 model Showcase {
   id          String   @id @default(cuid())
   createdOn   DateTime @default(now())
   Title       String   @db.VarChar(140)
   Description String   @db.VarChar(300)
+  Type        String   @db.VarChar(100)
   authorId    String   @db.VarChar()
+
+  @@index([authorId])
 }

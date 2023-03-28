@@ -1,13 +1,15 @@
 import { AiOutlineUser, AiOutlineSetting } from "react-icons/ai";
-import { RiFileUserFill } from "react-icons/ri";
+import { RiFileUserFill, RiPolaroid2Fill } from "react-icons/ri";
 import { VscNewFolder } from "react-icons/vsc";
 import { FaBrush } from "react-icons/fa";
 import { GoCode } from "react-icons/go";
-import { MdPhotoAlbum } from "react-icons/md";
 import Link from "next/link";
 import type { NextPage } from "next";
+import { api } from "~/utils/api";
 
 const Dashboard: NextPage = () => {
+  const { data } = api.showcases.getAll.useQuery();
+
   return (
     <main className="absolute left-[50%] my-40 ml-[-30vw] w-[60vw]">
       <div className="block">
@@ -29,20 +31,39 @@ const Dashboard: NextPage = () => {
         </div>
       </div>
 
-      <div className="mt-16 grid grid-cols-2 gap-x-4 gap-y-4 min-[1100px]:grid-cols-4">
-        <div className="group h-[360px] w-auto rounded bg-white-100/[5%] hover:cursor-pointer hover:bg-yellow-200">
-          <div className="flex h-[170px] w-[100%] rounded-tl-sm rounded-tr-sm bg-white-100/[15%]">
-            <GoCode className="mx-auto my-auto text-9xl text-white-100/50" />
-          </div>
-          <div className="inline-flex pb-3">
-            <div className="pt-4 pl-5 group-hover:text-black-500">
-              <span className="mr-2 text-sm font-semibold text-white-100">
-                Portfolio Showcase
-              </span>
-              <div className="w-[90%] text-white-100/75 group-hover:text-black-500">
-                <p className="text-xs">
-                  My showcase for my web development portfolio
-                </p>
+      <div className="mt-16 grid grid-cols-2 gap-x-4 gap-y-4 pb-20 min-[1100px]:grid-cols-4">
+        {data?.map((showcase) => (
+          <div key={showcase.Type}>
+            <div className="group relative h-[360px] w-auto rounded bg-white-100/[5%] hover:cursor-pointer hover:bg-yellow-200">
+              {showcase.Type == "Code" && (
+                <div className="flex h-[170px] w-[100%] rounded-tl-sm rounded-tr-sm bg-white-100/[15%]">
+                  <GoCode className="mx-auto my-auto text-9xl text-white-100/50" />
+                </div>
+              )}
+              {showcase.Type == "Art" && (
+                <div className="flex h-[170px] w-[100%] rounded-tl-sm rounded-tr-sm bg-white-100/[15%]">
+                  <FaBrush className="mx-auto my-auto text-8xl text-white-100/50" />
+                </div>
+              )}
+              {showcase.Type == "Photo" && (
+                <div className="flex h-[170px] w-[100%] rounded-tl-sm rounded-tr-sm bg-white-100/[15%]">
+                  <RiPolaroid2Fill className="mx-auto my-auto text-[110px] text-white-100/50" />
+                </div>
+              )}
+              <div className="inline-flex pb-3">
+                <div className="relative pt-4 pl-5 group-hover:text-black-500">
+                  <span
+                    key={showcase.id}
+                    className="mr-2 text-sm font-semibold text-white-100 group-hover:text-black-600"
+                  >
+                    {showcase.Title}
+                  </span>
+                  <div className="w-[90%] text-white-100/75 group-hover:text-black-500">
+                    <p key={showcase.id} className="text-xs">
+                      {showcase.Description}
+                    </p>
+                  </div>
+                </div>
               </div>
               <div className="absolute left-5 bottom-6 flex text-xs">
                 <RiFileUserFill className="text-4xl text-yellow-200 group-hover:text-black-500" />
@@ -57,7 +78,7 @@ const Dashboard: NextPage = () => {
               </div>
             </div>
           </div>
-        </div>
+        ))}
 
         <Link
           href="/new"

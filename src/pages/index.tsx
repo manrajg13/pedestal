@@ -1,7 +1,9 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import { useUser } from '@clerk/nextjs';
 
 const Home: NextPage = () => {
+  const user = useUser();
 
   return (
     <>
@@ -17,7 +19,7 @@ const Home: NextPage = () => {
             <div className="absolute z-10 ml-[280px] mt-[-105px] h-[300px] w-[380px] bg-yellow-200"></div>
             <div className="absolute z-30 ml-[240px] mt-[-80px] h-[490px] w-[340px] bg-black-500"></div>
             <div className="absolute z-20 ml-[263px] mt-[-70px] h-[265px] w-[330px] bg-orange-200"></div>
-            <div className="absolute z-40 ml-[250px] mt-[-70px] h-[470px] w-[320px] border-[1px] border-white-100/50 border-dashed"></div>
+            
             <div className="relative z-40 min-w-[620px]">
               <span className="text-yellow-200">&#60;</span>
               <span>Get Noticed</span>
