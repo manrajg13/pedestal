@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { SignOutButton, useClerk, useUser } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
+import { Dropdown } from "./ui/dropdown";
 
 export const Navbar = () => {
   const clerk = useClerk();
-  const user = useUser();
+  const isUserSignedIn = useUser().isSignedIn;
 
   return (
     <div className="absolute left-[50%] z-40 ml-[-30vw] w-[60vw] py-5">
@@ -18,8 +19,8 @@ export const Navbar = () => {
         </Link>
       </div>
 
-      <div className="float-right flex font-bold text-white-100/75">
-        {!user.isSignedIn && (
+      <div className="flex float-right font-bold text-white-100/75">
+        {!isUserSignedIn && (
           <span>
             <button
               className="rounded border-[1px] border-yellow-200 px-4 py-1 text-yellow-200 duration-300 ease-out  hover:bg-yellow-200/[15%]"
@@ -29,18 +30,16 @@ export const Navbar = () => {
             </button>
           </span>
         )}
-        {!!user.isSignedIn && (
-          <div>
+        <div className="flex py-2">
+          {isUserSignedIn && (
             <Link href="/dashboard">
               <span className="px-6 duration-300 ease-out hover:text-yellow-200">
                 Dashboard
               </span>
             </Link>
-            <a className="px-4 py-1 duration-300 ease-out  hover:text-yellow-200">
-              <SignOutButton>Sign out</SignOutButton>
-            </a>
-          </div>
-        )}
+          )}
+          {isUserSignedIn && <Dropdown />}
+        </div>
       </div>
     </div>
   );
