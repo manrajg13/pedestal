@@ -80,7 +80,7 @@ export const Showcases = () => {
             <Image
               className="rounded-full"
               src={author.profileImageUrl}
-              alt={author.username + "'s profile picture"}
+              alt={"Profile image"}
               width={30}
               height={30}
             />
