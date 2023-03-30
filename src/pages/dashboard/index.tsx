@@ -1,11 +1,16 @@
 import { AiOutlineUser, AiOutlineSetting } from "react-icons/ai";
 import type { NextPage } from "next";
-import { useUser } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 import { Showcases } from "../../components/showcases";
 
 const Dashboard: NextPage = () => {
   const { user } = useUser();
-  console.log(user)
+  const isUserSignedIn = useUser().isSignedIn;
+  const clerk = useClerk();
+
+  if (!isUserSignedIn) {
+    return <div onLoad={void clerk.openSignIn({})}></div>
+  }
 
   return (
     <main className="absolute left-[50%] my-40 ml-[-30vw] w-[60vw]">

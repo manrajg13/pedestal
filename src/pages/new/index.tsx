@@ -3,10 +3,17 @@ import { GoCode } from "react-icons/go";
 import { MdPhotoAlbum } from "react-icons/md";
 import Link from "next/link";
 import { useState } from "react";
-import { type NextPage } from "next";
+import type { NextPage } from "next";
+import { useClerk, useUser } from "@clerk/nextjs";
 
 const NewProject: NextPage = () => {
   const [name, setName] = useState("");
+  const isUserSignedIn = useUser().isSignedIn;
+  const clerk = useClerk();
+
+  if (!isUserSignedIn) {
+    return <div onLoad={void clerk.openSignIn({})}></div>
+  }
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
