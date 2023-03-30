@@ -1,10 +1,11 @@
 import { AiOutlineUser, AiOutlineSetting } from "react-icons/ai";
 import type { NextPage } from "next";
 import { useUser } from "@clerk/nextjs";
-import { UserShowcases } from "../../components/UserShowcases";
+import { Showcases } from "../../components/showcases";
 
 const Dashboard: NextPage = () => {
   const { user } = useUser();
+  console.log(user)
 
   return (
     <main className="absolute left-[50%] my-40 ml-[-30vw] w-[60vw]">
@@ -18,7 +19,7 @@ const Dashboard: NextPage = () => {
 
         <div className="flex float-right">
           <span>
-            <button className="flex rounded border-[1px] border-white-100/25 p-2 text-white-100/50 hover:bg-white-100/10">
+            <button className="flex rounded border-[1px] border-white-100/50 p-2 text-white-100/75 hover:bg-white-100/10">
               <AiOutlineSetting className="mt-1" />
               <span>&nbsp;Settings</span>
             </button>
@@ -27,7 +28,7 @@ const Dashboard: NextPage = () => {
       </div>
 
       <div className="mt-16 grid grid-cols-2 gap-x-4 gap-y-4 pb-20 min-[1100px]:grid-cols-4">
-        <UserShowcases />
+        <Showcases />
       </div>
     </main>
   );

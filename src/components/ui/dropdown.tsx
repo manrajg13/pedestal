@@ -32,8 +32,8 @@ export const Dropdown = () => {
   };
 
   async function handleSignOut() {
-    void signOut();
     await router.push("/");
+    void signOut();
   }
 
   useEffect(() => {
