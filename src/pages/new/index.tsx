@@ -18,15 +18,15 @@ const CreateShowCase = () => {
     setSelected(event.target.value);
   };
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    router.push("/dashboard")
+    await router.push("/dashboard");
   }
 
   console.log(selected);
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto mt-16 w-[500px] rounded bg-black-500 px-2 text-white-100">
+    <form onSubmit={() => void handleSubmit} className="mx-auto mt-16 w-[500px] rounded bg-black-500 px-2 text-white-100">
       <input
         autoFocus
         type="text"
