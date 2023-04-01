@@ -1,7 +1,12 @@
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs/server";
 import type { User } from "@clerk/nextjs/dist/api";
 import { TRPCError } from "@trpc/server";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
+import { z } from "zod";
 
 const filterUserForClient = (user: User) => {
   return {
@@ -15,6 +20,7 @@ export const showcasesRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const showcases = await ctx.prisma.showcase.findMany({
       take: 100,
+      orderBy: [{ createdOn: "desc" }],
     });
 
     const users = (
@@ -30,13 +36,37 @@ export const showcasesRouter = createTRPCRouter({
       if (!author || !author.username)
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Author for post not found",
+          message: "Author for showcase not found",
         });
 
       return {
         showcase,
-        author,
+        author: {
+          ...author,
+          username: author.username,
+        },
       };
     });
   }),
+
+  create: privateProcedure
+    .input(
+      z.object({
+        title: z.string().min(1).max(60),
+        type: z.string().min(1).max(20),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const authorId = ctx.userId;
+
+      const showcase = await ctx.prisma.showcase.create({
+        data: {
+          authorId,
+          title: input.title,
+          type: input.type,
+        },
+      });
+
+      return showcase;
+    }),
 });

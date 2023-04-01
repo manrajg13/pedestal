@@ -15,7 +15,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex h-screen scale-[90%]">
-        <div className="pt-16 my-auto ml-40">
+        <div className="pt-16 my-auto">
           <div className="z-0 mb-10 text-[4.9rem] font-bold leading-none text-white-100">
             <div className="absolute z-10 ml-[280px] mt-[-105px] h-[300px] w-[380px] bg-yellow-200"></div>
             <div className="absolute z-30 ml-[240px] mt-[-80px] h-[500px] w-[340px] bg-black-500"></div>

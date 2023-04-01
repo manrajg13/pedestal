@@ -7,14 +7,14 @@ export const Navbar = () => {
   const isUserSignedIn = useUser().isSignedIn;
 
   return (
-    <div className="absolute left-[50%] z-40 ml-[-30vw] w-[60vw] py-5">
-      <div className="float-left">
+    <div className="absolute left-[50%] z-40 ml-[-27.5vw] w-[55vw] py-5">
+      <div className="float-left mt-1 ml-3">
         <Link
-          className="group absolute min-w-[120px] rounded-sm bg-orange-200 px-4 py-5"
+          className="group absolute min-w-[40px] rounded-sm bg-orange-200 px-[16px] py-[18px]"
           href="/"
         >
-          <span className="absolute -mt-[24px] -ml-6 min-w-[120px] rounded-sm bg-yellow-200 px-[8px] py-[9px] text-center text-sm font-bold text-black-500 duration-150  ease-out group-hover:-ml-5 group-hover:-mt-[22px]">
-            PEDESTAL
+          <span className="absolute -mt-[24px] -ml-6 min-w-[40px] rounded-sm bg-yellow-200 py-1 text-center text-xl font-bold text-black-600 duration-150 ease-out group-hover:-ml-5 group-hover:-mt-[22px]">
+            P
           </span>
         </Link>
       </div>
@@ -23,7 +23,7 @@ export const Navbar = () => {
         {!isUserSignedIn && (
           <span>
             <button
-              className="rounded border-[1px] border-yellow-200 px-4 py-1 text-yellow-200 duration-300 ease-out  hover:bg-yellow-200/[15%]"
+              className="rounded border-[1px] border-yellow-200 px-4 py-1 text-yellow-200 duration-300 ease-out hover:bg-yellow-200/[15%]"
               onClick={() => clerk.openSignIn({})}
             >
               Sign in

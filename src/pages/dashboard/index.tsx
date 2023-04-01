@@ -1,9 +1,9 @@
-import { AiOutlineUser, AiOutlineSetting } from "react-icons/ai";
-import type { NextPage } from "next";
+import { AiOutlineSetting } from "react-icons/ai";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { Showcases } from "../../components/showcases";
+import Image from "next/image";
 
-const Dashboard: NextPage = () => {
+const Dashboard = () => {
   const { user } = useUser();
   const isUserSignedIn = useUser().isSignedIn;
   const clerk = useClerk();
@@ -12,12 +12,22 @@ const Dashboard: NextPage = () => {
     return <div onLoad={void clerk.openSignIn({})}></div>
   }
 
+  if (!user) {
+    return null
+  }
+
   return (
-    <main className="absolute left-[50%] my-40 ml-[-30vw] w-[60vw]">
+    <main className="absolute left-[50%] my-40 ml-[-27.5vw] w-[55vw]">
       <div className="block">
         <div className="flex float-left mt-2">
           <span>
-            <AiOutlineUser className="mt-[2px] text-2xl text-white-100" />
+          <Image
+              className="-mt-1 rounded-full"
+              src={user.profileImageUrl}
+              alt={"Profile image"}
+              width={34}
+              height={30}
+            />
           </span>
           <span className="ml-2 text-xl text-white-100">{user?.username}</span>
         </div>
@@ -32,7 +42,7 @@ const Dashboard: NextPage = () => {
         </div>
       </div>
 
-      <div className="mt-16 grid grid-cols-2 gap-x-4 gap-y-4 pb-20 min-[1100px]:grid-cols-4">
+      <div className="mt-16 grid grid-cols-3 gap-x-4 gap-y-4 pb-20 max-[700px]:grid-cols-1 max-[1100px]:grid-cols-2 min-[1600px]:grid-cols-4">
         <Showcases />
       </div>
     </main>

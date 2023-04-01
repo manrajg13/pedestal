@@ -3,6 +3,7 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { RiShutDownLine } from "react-icons/ri";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import type { MouseEventHandler } from "react";
 
 const UserProfileImgUrl = () => {
@@ -12,11 +13,13 @@ const UserProfileImgUrl = () => {
 
   return (
     <div>
-      <img
+      <Image
         src={user.profileImageUrl}
         className="-mt-[2px] h-[30px] w-auto rounded-full"
         alt="Profile_image"
-      />
+        width={30}
+        height={30}
+      ></Image>
     </div>
   );
 };
