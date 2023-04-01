@@ -14,10 +14,18 @@ datasource db {
 model Showcase {
   id          String   @id @default(cuid())
   createdOn   DateTime @default(now())
-
   title       String   @db.VarChar(60)
   type        String   @db.VarChar(20)
   authorId    String   @db.VarChar()
 
   @@index([authorId])
+}
+
+model Project {
+  id  String @id @default(cuid())
+  title  String @db.VarChar(60)
+  description String @db.VarChar(500)
+  tags  String @db.VarChar(40)
+  image String @db.VarChar(40)
+  createdOn DateTime @default(now())
 }

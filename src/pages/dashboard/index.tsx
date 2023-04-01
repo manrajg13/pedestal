@@ -17,7 +17,7 @@ const Dashboard = () => {
   }
 
   return (
-    <main className="absolute left-[50%] my-40 ml-[-27.5vw] w-[55vw]">
+    <main className="absolute my-40 w-[100vw] z-10 py-4 px-6 lg:ml-[-550px] lg:left-[50%] lg:w-[1100px]">
       <div className="block">
         <div className="flex float-left mt-2">
           <span>
@@ -42,7 +42,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="mt-16 grid grid-cols-3 gap-x-4 gap-y-4 pb-20 max-[700px]:grid-cols-1 max-[1100px]:grid-cols-2 min-[1600px]:grid-cols-4">
+      <div className="grid grid-cols-3 pb-20 mt-16 gap-x-4 gap-y-4 max-sm:grid-cols-1 lg:grid-cols-4">
         <Showcases />
       </div>
     </main>

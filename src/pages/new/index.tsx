@@ -7,6 +7,7 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { useRouter } from 'next/router';
+import { VscNewFolder } from "react-icons/vsc";
 
 const CreateShowCase = () => {
   const { mutate} = api.showcases.create.useMutation();
@@ -26,7 +27,7 @@ const CreateShowCase = () => {
   console.log(selected);
 
   return (
-    <form onSubmit={() => void handleSubmit} className="mx-auto mt-16 w-[500px] rounded bg-black-500 px-2 text-white-100">
+    <form onSubmit={() => void handleSubmit} className="mx-auto mt-12 w-[400px] rounded bg-black-500 px-2 text-white-100 sm:w-[500px]">
       <input
         autoFocus
         type="text"
@@ -84,7 +85,7 @@ const CreateShowCase = () => {
             <span>&nbsp;Art Gallery</span>
           </label>
           <label
-            htmlFor="code"
+            htmlFor="art"
             className="hidden cursor-pointer items-center rounded-tr rounded-br pr-3 text-lg text-yellow-200 peer-checked:flex peer-checked:border-[1px] peer-checked:border-l-0 peer-checked:border-yellow-200"
           >
             <AiFillCheckCircle />
@@ -102,7 +103,7 @@ const CreateShowCase = () => {
           />
           <label
             htmlFor="photo"
-            className="inline-flex w-full cursor-pointer rounded-tl rounded-bl border-yellow-200 p-2 peer-checked:border-[1px] peer-checked:border-r-0 peer-checked:text-yellow-200"
+            className="inline-flex w-full cursor-pointer rounded-tl rounded-bl border-[1px] border-black-500 p-2 peer-checked:border-yellow-200 peer-checked:border-r-0 peer-checked:text-yellow-200"
           >
             <div className="mt-1 w-[25px] text-lg text-yellow-200">
               <MdPhotoAlbum className="mx-auto" />
@@ -137,10 +138,11 @@ const NewProject: NextPage = () => {
   }
 
   return (
-    <main className="absolute left-[50%] my-40 ml-[-30vw] grid w-[60vw] text-center">
-      <h1 className="mt-32 text-4xl font-bold text-white-100">New Showcase</h1>
-      <p className="mt-4 text-white-100/75">
-        Curate a display for your projects effortlessly
+    <main className="absolute text-center w-[100vw] py-4 px-6 lg:ml-[-550px] lg:left-[50%] lg:w-[1100px]">
+      <h1 className="inline-flex mx-auto text-yellow-200 text-7xl mt-36"><VscNewFolder /></h1>
+      <h1 className="mt-8 text-4xl font-bold text-white-100">New Showcase</h1>
+      <p className="mt-2 text-white-100/75">
+        Curate a web display for your projects with ease
       </p>
       <CreateShowCase />
     </main>
