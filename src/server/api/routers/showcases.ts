@@ -69,8 +69,7 @@ export const showcasesRouter = createTRPCRouter({
       const authorId = ctx.userId;
 
       const { success } = await ratelimit.limit(authorId);
-
-      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS"});
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
 
       const showcase = await ctx.prisma.showcase.create({
         data: {

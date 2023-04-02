@@ -4,6 +4,7 @@ import { api } from "~/utils/api";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Navbar } from "~/components/navbar";
 import "~/styles/globals.css";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -45,7 +46,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             socialButtonsPlacement: "bottom",
           },
         }}
-      >
+      ><Toaster position="bottom-right" />
         <Navbar />
         <Component {...pageProps} />
       </ClerkProvider>

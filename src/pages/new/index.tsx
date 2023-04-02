@@ -1,16 +1,17 @@
 import { FaBrush } from "react-icons/fa";
 import { GoCode } from "react-icons/go";
 import { MdPhotoAlbum } from "react-icons/md";
-import { ChangeEvent, useState } from "react";
+import { ButtonHTMLAttributes, ChangeEvent, useState } from "react";
 import type { NextPage } from "next";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import { AiFillCheckCircle } from "react-icons/ai";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import { VscNewFolder } from "react-icons/vsc";
+import toast from "react-hot-toast";
 
 const CreateShowCase = () => {
-  const { mutate} = api.showcases.create.useMutation();
+  const { mutate, isLoading: isPosting } = api.showcases.create.useMutation();
   const [input, setInput] = useState("");
   const [selected, setSelected] = useState("code");
   const router = useRouter();
@@ -21,19 +22,48 @@ const CreateShowCase = () => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (input === "") {
+      toast.custom((t) => (
+        <div className="px-10 py-3 bg-red-200 rounded-3xl text-white-100">
+          Enter a name for the showcase first
+        </div>
+      ));
+      return;
+    }
+
+    if (input.length > 60) {
+      toast.custom((t) => (
+        <div className="px-10 py-3 bg-red-200 rounded-3xl text-white-100">
+          Choose a name shorter than 60 characters
+        </div>
+      ));
+      return;
+    }
+
     mutate({ title: input, type: selected });
-    router.push("/dashboard").catch((error) => console.error("Error navigating to page:", error));
+
+    router
+      .push("/dashboard")
+      .catch((error) => console.error("Error navigating to page:", error));
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto mt-12 w-[400px] rounded bg-black-500 px-2 text-white-100 sm:w-[500px]">
+    <form
+      onSubmit={handleSubmit}
+      className="mx-auto mt-12 w-[400px] rounded bg-black-500 px-2 pb-[1px] text-white-100 sm:w-[500px]"
+    >
       <input
         autoFocus
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        min={1}
-        max={20}
+        disabled={isPosting}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleSubmit;
+          }
+        }}
         placeholder="Enter a name for your showcase"
         className="mt-1 h-[50px] w-[100%] rounded-tl-lg rounded-tr-lg border-b-[1px] border-white-100/25 bg-black-500 px-2 placeholder:text-white-100/50 focus:outline-none"
       />
@@ -50,7 +80,7 @@ const CreateShowCase = () => {
           />
           <label
             htmlFor="code"
-            className="inline-flex w-full cursor-pointer rounded-tl rounded-bl border-[1px] border-black-500 p-2 peer-checked:border-yellow-200 peer-checked:border-r-0 peer-checked:text-yellow-200"
+            className="inline-flex w-full cursor-pointer rounded-tl rounded-bl border-[1px] border-black-500 p-2 peer-checked:border-r-0 peer-checked:border-yellow-200 peer-checked:text-yellow-200"
           >
             <div className="mt-[3px] w-[25px] text-lg text-yellow-200">
               <GoCode className="mx-auto" />
@@ -59,7 +89,7 @@ const CreateShowCase = () => {
           </label>
           <label
             htmlFor="code"
-            className="hidden cursor-pointer items-center rounded-tr rounded-br pr-3 text-lg border-[1px] text-yellow-200 peer-checked:flex peer-checked:border-[1px] peer-checked:border-l-0 peer-checked:border-yellow-200"
+            className="hidden cursor-pointer items-center rounded-tr rounded-br border-[1px] pr-3 text-lg text-yellow-200 peer-checked:flex peer-checked:border-[1px] peer-checked:border-l-0 peer-checked:border-yellow-200"
           >
             <AiFillCheckCircle />
           </label>
@@ -76,7 +106,7 @@ const CreateShowCase = () => {
           />
           <label
             htmlFor="art"
-            className="inline-flex w-full cursor-pointer rounded-tl rounded-bl border-[1px] border-black-500 p-2 peer-checked:border-yellow-200 peer-checked:border-r-0 peer-checked:text-yellow-200"
+            className="inline-flex w-full cursor-pointer rounded-tl rounded-bl border-[1px] border-black-500 p-2 peer-checked:border-r-0 peer-checked:border-yellow-200 peer-checked:text-yellow-200"
           >
             <div className="mt-1 w-[25px] text-lg text-yellow-200">
               <FaBrush className="mx-auto" />
@@ -102,7 +132,7 @@ const CreateShowCase = () => {
           />
           <label
             htmlFor="photo"
-            className="inline-flex w-full cursor-pointer rounded-tl rounded-bl border-[1px] border-black-500 p-2 peer-checked:border-yellow-200 peer-checked:border-r-0 peer-checked:text-yellow-200"
+            className="inline-flex w-full cursor-pointer rounded-tl rounded-bl border-[1px] border-black-500 p-2 peer-checked:border-r-0 peer-checked:border-yellow-200 peer-checked:text-yellow-200"
           >
             <div className="mt-1 w-[25px] text-lg text-yellow-200">
               <MdPhotoAlbum className="mx-auto" />
@@ -120,6 +150,7 @@ const CreateShowCase = () => {
       <button
         className="w-full p-3 mb-2 text-sm bg-yellow-200 rounded text-black-500 hover:brightness-75"
         type="submit"
+        disabled={isPosting}
       >
         Create new project
       </button>
@@ -136,8 +167,10 @@ const NewProject: NextPage = () => {
   }
 
   return (
-    <main className="absolute text-center w-[100vw] py-4 px-6 lg:ml-[-550px] lg:left-[50%] lg:w-[1100px]">
-      <h1 className="inline-flex mx-auto text-yellow-200 text-7xl mt-36"><VscNewFolder /></h1>
+    <main className="absolute w-[100vw] py-4 px-6 text-center lg:left-[50%] lg:ml-[-550px] lg:w-[1100px]">
+      <h1 className="inline-flex mx-auto text-yellow-200 mt-36 text-7xl">
+        <VscNewFolder />
+      </h1>
       <h1 className="mt-8 text-4xl font-bold text-white-100">New Showcase</h1>
       <p className="mt-2 text-white-100/75">
         Curate a web display for your projects with ease

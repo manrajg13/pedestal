@@ -48,10 +48,10 @@ export const Showcases = () => {
             </div>
           )}
           <div className="inline-flex pb-3">
-            <div className="relative pt-4 pl-5 group-hover:text-black-500">
+            <div className="relative px-5 pt-4 group-hover:text-black-500">
               <span
                 key={showcase.id}
-                className="mr-2 font-semibold text-white-100 group-hover:text-black-600"
+                className="flex font-semibold break-all text-white-100 group-hover:text-black-600"
               >
                 {showcase.title}
               </span>
