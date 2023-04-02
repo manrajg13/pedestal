@@ -19,11 +19,11 @@ export const Navbar = () => {
         </Link>
       </div>
 
-      <div className="flex float-right font-bold text-white-100/75">
+      <div className="flex float-right text-white-100/75">
         {!isUserSignedIn && (
           <span>
             <button
-              className="rounded border-[1px] border-yellow-200 px-4 py-1 text-yellow-200 duration-300 ease-out hover:bg-yellow-200/[15%]"
+              className="rounded border-[1px] border-yellow-200 px-4 py-1 mt-1 text-yellow-200 duration-300 ease-out hover:bg-yellow-200/[15%]"
               onClick={() => clerk.openSignIn({})}
             >
               Sign in

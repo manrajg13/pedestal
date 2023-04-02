@@ -89,7 +89,7 @@ export const Showcases = () => {
         className="group flex h-[305px] w-auto rounded border-[1px] border-dashed border-white-100/50 hover:cursor-pointer hover:border-yellow-200"
       >
         <div className="inline-flex pb-3 mx-auto my-auto">
-          <span className="text-8xl text-white-100/50 group-hover:text-yellow-200 max-[648px]:hidden">
+          <span className="text-8xl text-white-100/50 group-hover:text-yellow-200">
             <VscNewFolder />
           </span>
         </div>

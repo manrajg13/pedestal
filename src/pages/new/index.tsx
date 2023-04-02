@@ -19,15 +19,14 @@ const CreateShowCase = () => {
     setSelected(event.target.value);
   };
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    await router.push("/dashboard");
+    mutate({ title: input, type: selected });
+    router.push("/dashboard").catch((error) => console.error("Error navigating to page:", error));
   }
 
-  console.log(selected);
-
   return (
-    <form onSubmit={() => void handleSubmit} className="mx-auto mt-12 w-[400px] rounded bg-black-500 px-2 text-white-100 sm:w-[500px]">
+    <form onSubmit={handleSubmit} className="mx-auto mt-12 w-[400px] rounded bg-black-500 px-2 text-white-100 sm:w-[500px]">
       <input
         autoFocus
         type="text"
@@ -121,7 +120,6 @@ const CreateShowCase = () => {
       <button
         className="w-full p-3 mb-2 text-sm bg-yellow-200 rounded text-black-500 hover:brightness-75"
         type="submit"
-        onClick={() => mutate({ title: input, type: selected })}
       >
         Create new project
       </button>
