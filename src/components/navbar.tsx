@@ -7,8 +7,8 @@ export const Navbar = () => {
   const isUserSignedIn = useUser().isSignedIn;
 
   return (
-    <div className="fixed w-[100vw] z-10 py-4 px-6 lg:ml-[-550px] lg:left-[50%] lg:w-[1100px]">
-      <div className="float-left mt-2 ml-3">
+    <div className="fixed w-[100vw] bg-gradient-to-b from-black-600 z-40 py-4 px-6 lg:ml-[-550px] lg:left-[50%] lg:w-[1100px]">
+      <div className="float-left mt-2 ml-5">
         <Link
           className="group absolute min-w-[40px] rounded-sm bg-orange-200 px-[16px] py-[18px]"
           href="/"

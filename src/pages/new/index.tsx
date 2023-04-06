@@ -1,12 +1,11 @@
 import { FaBrush } from "react-icons/fa";
 import { GoCode } from "react-icons/go";
 import { MdPhotoAlbum } from "react-icons/md";
-import { ButtonHTMLAttributes, ChangeEvent, useState } from "react";
-import type { NextPage } from "next";
+import { type ChangeEvent, useState } from "react";
+import { type NextPage } from "next";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 import { AiFillCheckCircle } from "react-icons/ai";
-import { useRouter } from "next/router";
 import { VscNewFolder } from "react-icons/vsc";
 import toast from "react-hot-toast";
 
@@ -14,7 +13,6 @@ const CreateShowCase = () => {
   const { mutate, isLoading: isPosting } = api.showcases.create.useMutation();
   const [input, setInput] = useState("");
   const [selected, setSelected] = useState("code");
-  const router = useRouter();
 
   const handleTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelected(event.target.value);
@@ -24,7 +22,7 @@ const CreateShowCase = () => {
     event.preventDefault();
 
     if (input === "") {
-      toast.custom((t) => (
+      toast.custom(() => (
         <div className="px-10 py-3 bg-red-200 rounded-3xl text-white-100">
           Enter a name for the showcase first
         </div>
@@ -33,7 +31,7 @@ const CreateShowCase = () => {
     }
 
     if (input.length > 60) {
-      toast.custom((t) => (
+      toast.custom(() => (
         <div className="px-10 py-3 bg-red-200 rounded-3xl text-white-100">
           Choose a name shorter than 60 characters
         </div>
@@ -43,9 +41,7 @@ const CreateShowCase = () => {
 
     mutate({ title: input, type: selected });
 
-    router
-      .push("/dashboard")
-      .catch((error) => console.error("Error navigating to page:", error));
+    window.location.href = "/dashboard"
   }
 
   return (

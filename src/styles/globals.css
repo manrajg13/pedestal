@@ -11,12 +11,6 @@
   }
 }
 
-body {
-  background-image: radial-gradient(#504945 1px, transparent 0);
-  background-size: 35px 35px;
-  background-position: -16px -16px;
-}
-
 input {
   -webkit-background-clip: text;
 }

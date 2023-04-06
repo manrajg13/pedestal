@@ -1,10 +1,8 @@
+import { type NextPage } from "next";
 import { Resizable } from "re-resizable";
 import { useState } from "react";
-import { RouterOutputs } from "~/utils/api";
 
-type ShowcaseWithUser = RouterOutputs["showcases"]["getAll"][number];
-
-const Showcase = () => {
+const Showcase: NextPage = () => {
   const [width, setWidth] = useState(1050);
   const [height, setHeight] = useState(700);
 
@@ -13,6 +11,9 @@ const Showcase = () => {
       <h1></h1>
       <Resizable
         defaultSize={{ width: 1050, height: 700 }}
+        minWidth={400}
+        maxWidth={1050}
+        minHeight={300}
         onResizeStop={(e, direction, ref, d) => {
           setWidth(width + d.width);
           setHeight(height + d.height);

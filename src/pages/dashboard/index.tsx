@@ -8,13 +8,9 @@ const Dashboard = () => {
   const isUserSignedIn = useUser().isSignedIn;
   const clerk = useClerk();
 
-  if (!isUserSignedIn) {
-    return <div onLoad={void clerk.openSignIn({})}></div>
-  }
-
-  if (!user) {
-    return null
-  }
+  if (!isUserSignedIn) return <div onLoad={void clerk.openSignIn({})}></div>
+  if (!user) return null
+  if (!user.username) return null
 
   return (
     <main className="absolute my-40 w-[100vw] z-10 py-4 px-6 lg:ml-[-550px] lg:left-[50%] lg:w-[1100px] md:w-[800px] md:ml-[-400px] md:left-[50%]">
@@ -22,10 +18,10 @@ const Dashboard = () => {
         <div className="flex float-left mt-2">
           <span>
           <Image
-              className="-mt-1 rounded-full"
+              className="rounded-full"
               src={user.profileImageUrl}
-              alt={"Profile image"}
-              width={34}
+              alt={"user.png"}
+              width={30}
               height={30}
             />
           </span>
@@ -36,7 +32,7 @@ const Dashboard = () => {
           <span>
             <button className="flex rounded border-[1px] border-white-100/50 p-2 text-white-100/75 hover:bg-white-100/10">
               <AiOutlineSetting className="mt-1" />
-              <span>&nbsp;Settings</span>
+              <span>&nbsp;Filter</span>
             </button>
           </span>
         </div>

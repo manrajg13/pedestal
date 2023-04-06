@@ -11,7 +11,7 @@ const config = {
     styledComponents: true
   },
   images: {
-    domains: ['images.clerk.dev']
+    domains: ['images.clerk.dev', 'www.gravatar.com']
   },
 
   /**
