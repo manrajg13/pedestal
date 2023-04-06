@@ -7,7 +7,7 @@ export const Navbar = () => {
   const isUserSignedIn = useUser().isSignedIn;
 
   return (
-    <div className="fixed w-[100vw] bg-gradient-to-b from-black-600 z-40 py-4 px-6 lg:ml-[-550px] lg:left-[50%] lg:w-[1100px]">
+    <div className="fixed z-40 w-[100vw] bg-gradient-to-b from-black-600 py-4 px-6 lg:left-[50%] lg:ml-[-550px] lg:w-[1100px]">
       <div className="float-left mt-2 ml-5">
         <Link
           className="group absolute min-w-[40px] rounded-sm bg-orange-200 px-[16px] py-[18px]"
@@ -19,11 +19,11 @@ export const Navbar = () => {
         </Link>
       </div>
 
-      <div className="flex float-right text-white-100/75">
+      <div className="float-right flex text-white-100/75">
         {!isUserSignedIn && (
           <span>
             <button
-              className="rounded border-[1px] border-yellow-200 px-4 py-1 mt-1 text-yellow-200 duration-300 ease-out hover:bg-yellow-200/[15%]"
+              className="mt-1 rounded border-[1px] border-yellow-200 px-4 py-1 text-yellow-200 duration-300 ease-out hover:bg-yellow-200/[15%]"
               onClick={() => clerk.openSignIn({})}
             >
               Sign in
@@ -32,13 +32,12 @@ export const Navbar = () => {
         )}
         <div className="flex py-2">
           {isUserSignedIn && (
-            <span className="hover:text-yellow-200 hover:cursor-pointer">
-            <Link href="/dashboard">
-              <span className="px-6 duration-300 ease-out">
-                Dashboard
-              </span>
+            <Link
+              href="/dashboard"
+              className="hover:cursor-pointer hover:text-yellow-200"
+            >
+              <span className="px-6 duration-300 ease-out">Dashboard</span>
             </Link>
-            </span>
           )}
           {isUserSignedIn && <Dropdown />}
         </div>

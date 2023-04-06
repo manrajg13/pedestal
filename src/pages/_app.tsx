@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Navbar } from "~/components/navbar";
 import "~/styles/globals.css";
 import { Toaster } from "react-hot-toast";
+import Head from "next/head";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,7 +17,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <main className={inter.className}>
       <ClerkProvider
         appearance={{
-          elements: { 
+          elements: {
             alert: "mt-6 -mb-4 border-white-100/[15%]",
             alertText: "text-white-100",
             modalContent: "mt-52",
@@ -24,8 +25,10 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             headerTitle: "text-yellow-200",
             headerSubtitle: "text-white-100",
             formFieldLabel: "text-white-100",
-            modalCloseButton: "text-white-100 rounded-none hover:bg-yellow-200 hover:brightness-125 hover:text-black-500",
-            formButtonPrimary: "bg-yellow-200 hover:bg-yellow-200 rounded-sm hover:brightness-75",
+            modalCloseButton:
+              "text-white-100 rounded-none hover:bg-yellow-200 hover:brightness-125 hover:text-black-500",
+            formButtonPrimary:
+              "bg-yellow-200 hover:bg-yellow-200 rounded-sm hover:brightness-75",
             footerActionText: "mt-[7px] text-white-100",
             formFieldInput: "outline-none text-white-100/75 rounded-sm",
             formFieldHintText: "text-white-100/50",
@@ -35,18 +38,26 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             identityPreviewText: "text-white-100",
             formHeaderTitle: "text-white-100",
             formHeaderSubtitle: "text-white-100/75",
-            alternativeMethodsBlockButton: "bg-yellow-200 hover:bg-yellow-200 rounded-sm hover:brightness-75",
+            alternativeMethodsBlockButton:
+              "bg-yellow-200 hover:bg-yellow-200 rounded-sm hover:brightness-75",
             otpCodeFieldInput: "text-white-100/50 border-yellow-200",
             socialButtons: "bg-black-600",
-            socialButtonsBlockButton: "bg-white-100 rounded-sm hover:bg-white-100",
+            socialButtonsBlockButton:
+              "bg-white-100 rounded-sm hover:bg-white-100",
             formResendCodeLink: "text-yellow-200",
             footerActionLink: "text-lg text-yellow-200 hover:text-yellow-200",
           },
-          layout: { 
+          layout: {
             socialButtonsPlacement: "bottom",
           },
         }}
-      ><Toaster position="bottom-right" />
+      >
+        <Head>
+          <title>Pedestal</title>
+          <meta name="description" content="A project showcase web-app" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Toaster position="bottom-right" />
         <Navbar />
         <Component {...pageProps} />
       </ClerkProvider>

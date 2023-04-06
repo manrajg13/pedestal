@@ -1,5 +1,4 @@
 import { clerkClient } from "@clerk/nextjs/server";
-import type { User } from "@clerk/nextjs/dist/api";
 import { TRPCError } from "@trpc/server";
 import {
   createTRPCRouter,
@@ -7,17 +6,37 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { z } from "zod";
-
-const filterUserForClient = (user: User) => {
-  return {
-    id: user.id,
-    username: user.username,
-    profileImageUrl: user.profileImageUrl,
-  };
-};
-
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { filterUserForClient } from "~/server/helpers/filterUserForClient";
+import { type Showcase } from "@prisma/client";
+
+const addUserDatatoShowcases = async (showcases: Showcase[]) => {
+  const users = (
+    await clerkClient.users.getUserList({
+      userId: showcases.map((showcase) => showcase.authorId),
+      limit: 100,
+    })
+  ).map(filterUserForClient);
+
+  return showcases.map((showcase) => {
+    const author = users.find((user) => user.id === showcase.authorId);
+
+    if (!author || !author.username)
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Author for showcase not found",
+      });
+
+    return {
+      showcase,
+      author: {
+        ...author,
+        username: author.username,
+      },
+    };
+  });
+};
 
 // Create a new ratelimiter, that allows 3 requests per 1 minute
 const ratelimit = new Ratelimit({
@@ -32,31 +51,26 @@ export const showcasesRouter = createTRPCRouter({
       orderBy: [{ createdOn: "desc" }],
     });
 
-    const users = (
-      await clerkClient.users.getUserList({
-        userId: showcases.map((showcase) => showcase.authorId),
-        limit: 100,
-      })
-    ).map(filterUserForClient);
-
-    return showcases.map((showcase) => {
-      const author = users.find((user) => user.id === showcase.authorId);
-
-      if (!author || !author.username)
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Author for showcase not found",
-        });
-
-      return {
-        showcase,
-        author: {
-          ...author,
-          username: author.username,
-        },
-      };
-    });
+    return addUserDatatoShowcases(showcases);
   }),
+
+  getShowcaseByUserId: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) =>
+      ctx.prisma.showcase
+        .findMany({
+          where: {
+            authorId: input.userId,
+          },
+          take: 100,
+          orderBy: [{ createdOn: "desc" }],
+        })
+        .then(addUserDatatoShowcases)
+    ),
 
   create: privateProcedure
     .input(

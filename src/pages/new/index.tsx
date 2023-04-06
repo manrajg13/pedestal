@@ -8,6 +8,7 @@ import { api } from "~/utils/api";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { VscNewFolder } from "react-icons/vsc";
 import toast from "react-hot-toast";
+import Head from "next/head";
 
 const CreateShowCase = () => {
   const { mutate, isLoading: isPosting } = api.showcases.create.useMutation();
@@ -23,7 +24,7 @@ const CreateShowCase = () => {
 
     if (input === "") {
       toast.custom(() => (
-        <div className="px-10 py-3 bg-red-200 rounded-3xl text-white-100">
+        <div className="rounded-3xl bg-red-200 px-10 py-3 text-white-100">
           Enter a name for the showcase first
         </div>
       ));
@@ -32,7 +33,7 @@ const CreateShowCase = () => {
 
     if (input.length > 60) {
       toast.custom(() => (
-        <div className="px-10 py-3 bg-red-200 rounded-3xl text-white-100">
+        <div className="rounded-3xl bg-red-200 px-10 py-3 text-white-100">
           Choose a name shorter than 60 characters
         </div>
       ));
@@ -41,7 +42,7 @@ const CreateShowCase = () => {
 
     mutate({ title: input, type: selected });
 
-    window.location.href = "/dashboard"
+    window.location.href = "/dashboard";
   }
 
   return (
@@ -63,7 +64,7 @@ const CreateShowCase = () => {
         placeholder="Enter a name for your showcase"
         className="mt-1 h-[50px] w-[100%] rounded-tl-lg rounded-tr-lg border-b-[1px] border-white-100/25 bg-black-500 px-2 placeholder:text-white-100/50 focus:outline-none"
       />
-      <ul className="grid w-full gap-1 my-2 text-white-100/50">
+      <ul className="my-2 grid w-full gap-1 text-white-100/50">
         <li className="inline-flex rounded hover:bg-black-300">
           <input
             checked={selected === "code"}
@@ -72,7 +73,7 @@ const CreateShowCase = () => {
             id="code"
             name="type"
             value="code"
-            className="hidden peer"
+            className="peer hidden"
           />
           <label
             htmlFor="code"
@@ -98,7 +99,7 @@ const CreateShowCase = () => {
             id="art"
             name="type"
             value="art"
-            className="hidden peer"
+            className="peer hidden"
           />
           <label
             htmlFor="art"
@@ -124,7 +125,7 @@ const CreateShowCase = () => {
             id="photo"
             name="type"
             value="photo"
-            className="hidden peer"
+            className="peer hidden"
           />
           <label
             htmlFor="photo"
@@ -144,7 +145,7 @@ const CreateShowCase = () => {
         </li>
       </ul>
       <button
-        className="w-full p-3 mb-2 text-sm bg-yellow-200 rounded text-black-500 hover:brightness-75"
+        className="mb-2 w-full rounded bg-yellow-200 p-3 text-sm text-black-500 hover:brightness-75"
         type="submit"
         disabled={isPosting}
       >
@@ -163,16 +164,21 @@ const NewProject: NextPage = () => {
   }
 
   return (
-    <main className="absolute w-[100vw] py-4 px-6 text-center lg:left-[50%] lg:ml-[-550px] lg:w-[1100px]">
-      <h1 className="inline-flex mx-auto text-yellow-200 mt-36 text-7xl">
-        <VscNewFolder />
-      </h1>
-      <h1 className="mt-8 text-4xl font-bold text-white-100">New Showcase</h1>
-      <p className="mt-2 text-white-100/75">
-        Curate a web display for your projects with ease
-      </p>
-      <CreateShowCase />
-    </main>
+    <>
+      <Head>
+        <title>Dashboard</title>
+      </Head>
+      <main className="absolute w-[100vw] py-4 px-6 text-center lg:left-[50%] lg:ml-[-550px] lg:w-[1100px]">
+        <h1 className="mx-auto mt-36 inline-flex text-7xl text-yellow-200">
+          <VscNewFolder />
+        </h1>
+        <h1 className="mt-8 text-4xl font-bold text-white-100">New Showcase</h1>
+        <p className="mt-2 text-white-100/75">
+          Curate a web display for your projects with ease
+        </p>
+        <CreateShowCase />
+      </main>
+    </>
   );
 };
 
