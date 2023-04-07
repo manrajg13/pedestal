@@ -1,6 +1,5 @@
 import { FaBrush } from "react-icons/fa";
 import { GoCode } from "react-icons/go";
-import { MdPhotoAlbum } from "react-icons/md";
 import { type ChangeEvent, useState } from "react";
 import { type NextPage } from "next";
 import { useClerk, useUser } from "@clerk/nextjs";
@@ -9,6 +8,7 @@ import { AiFillCheckCircle } from "react-icons/ai";
 import { VscNewFolder } from "react-icons/vsc";
 import toast from "react-hot-toast";
 import Head from "next/head";
+import { RiPolaroid2Fill } from "react-icons/ri";
 
 const CreateShowCase = () => {
   const { mutate, isLoading: isPosting } = api.showcases.create.useMutation();
@@ -80,7 +80,7 @@ const CreateShowCase = () => {
             className="inline-flex w-full cursor-pointer rounded-tl rounded-bl border-[1px] border-black-500 p-2 peer-checked:border-r-0 peer-checked:border-yellow-200 peer-checked:text-yellow-200"
           >
             <div className="mt-[3px] w-[25px] text-lg text-yellow-200">
-              <GoCode className="mx-auto" />
+              <GoCode className="mx-auto text-[20px] -mt-[2px]" />
             </div>
             <span>&nbsp;Code Portfolio</span>
           </label>
@@ -132,7 +132,7 @@ const CreateShowCase = () => {
             className="inline-flex w-full cursor-pointer rounded-tl rounded-bl border-[1px] border-black-500 p-2 peer-checked:border-r-0 peer-checked:border-yellow-200 peer-checked:text-yellow-200"
           >
             <div className="mt-1 w-[25px] text-lg text-yellow-200">
-              <MdPhotoAlbum className="mx-auto" />
+              <RiPolaroid2Fill className="mx-auto -mt-[3px] text-[20px]" />
             </div>
             <span>&nbsp;Photo Album</span>
           </label>

@@ -77,15 +77,6 @@ const Dashboard = () => {
               {user?.username}
             </span>
           </div>
-
-          <div className="float-right flex">
-            <span>
-              <button className="flex rounded border-[1px] border-white-100/50 p-2 text-white-100/75 hover:bg-white-100/10">
-                <AiOutlineSetting className="mt-1" />
-                <span>&nbsp;Filter</span>
-              </button>
-            </span>
-          </div>
         </div>
 
         <div className="mt-16">

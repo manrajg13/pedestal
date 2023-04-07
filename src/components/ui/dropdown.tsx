@@ -1,5 +1,5 @@
 import { useClerk, useUser } from "@clerk/nextjs";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { MdOutlineKeyboardArrowDown, MdDashboardCustomize } from "react-icons/md";
 import { GoGear } from "react-icons/go";
 import { useEffect, useRef, useState } from "react";
 import { RiShutDownLine } from "react-icons/ri";
@@ -65,15 +65,23 @@ export const Dropdown = () => {
     <div ref={ref}>
       <button
         onClick={handleClick}
-        className="-mt-1 duration-300 ease-out hover:cursor-pointer hover:text-yellow-200"
+        className="duration-300 ease-out hover:cursor-pointer hover:text-yellow-200"
       >
-        <span className="mt-[2px] flex text-3xl">
+        <span className="flex text-3xl">
           <UserProfileImgUrl />
           <MdOutlineKeyboardArrowDown />
         </span>
       </button>
       <div className={isOpen ? "" : "hidden"}>
-        <div className="absolute right-6 top-14 w-[200px] rounded-sm bg-black-500 p-2 font-medium">
+        <div className="absolute right-6 pb-1 top-14 w-[200px] rounded-sm bg-black-500 p-2 font-medium">
+          <Link href={"/dashboard"}>
+            <button className="inline-flex w-[100%] rounded-sm px-3 py-1 text-white-100/75 hover:cursor-pointer hover:bg-white-100/[6%]">
+              <span className="mt-1 mr-2">
+                <MdDashboardCustomize />
+              </span>
+              Dashboard
+            </button>
+          </Link>
           <Link href={`/${user.username}`}>
             <button className="inline-flex w-[100%] rounded-sm px-3 py-1 text-white-100/75 hover:cursor-pointer hover:bg-white-100/[6%]">
               <span className="mt-1 mr-2">

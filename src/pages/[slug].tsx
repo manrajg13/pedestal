@@ -1,5 +1,6 @@
 import type { GetStaticProps, NextPage } from "next";
 import { FaCalendar } from "react-icons/fa";
+import { BsEmojiNeutral } from "react-icons/bs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
 import Image from "next/image";
@@ -15,7 +16,9 @@ const ProfileShowcases = (props: { userId: string }) => {
   if (isLoading) return <LoadingPage />;
   if (!data || data.length === 0)
     return (
-      <div className="text-center text-white-100">User has not posted.</div>
+      <div className="text-center text-white-100">
+        This user hasn&#39;t posted anything... yet.
+      </div>
     );
 
   return (
@@ -32,7 +35,19 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
     username,
   });
 
-  if (!data) return <div>404</div>;
+  if (!data)
+    return (
+      <div className="absolute mx-auto mt-52 grid w-full text-center text-4xl font-bold text-white-100">
+        <p className="mx-auto mb-8 text-[110px]">
+          <BsEmojiNeutral />
+        </p>
+        <p>404</p>
+        <div className="mt-2 text-xl font-semibold">
+          <p>Oh, man... I don&#39;t know what you&#39;re</p>
+          <p>looking for, but it&#39;s not here.</p>
+        </div>
+      </div>
+    );
 
   const dateData = new Date(data.createdOn);
   const date = `${dateData.toLocaleDateString("default", {

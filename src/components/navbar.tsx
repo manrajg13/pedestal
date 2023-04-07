@@ -20,6 +20,9 @@ export const Navbar = () => {
       </div>
 
       <div className="float-right flex text-white-100/75">
+        <Link href="/explore" className="mt-1 py-1 px-4 mr-2 hover:text-yellow-200">
+          <span>Explore</span>
+        </Link>
         {!isUserSignedIn && (
           <span>
             <button
@@ -31,14 +34,6 @@ export const Navbar = () => {
           </span>
         )}
         <div className="flex py-2">
-          {isUserSignedIn && (
-            <Link
-              href="/dashboard"
-              className="hover:cursor-pointer hover:text-yellow-200"
-            >
-              <span className="px-6 duration-300 ease-out">Dashboard</span>
-            </Link>
-          )}
           {isUserSignedIn && <Dropdown />}
         </div>
       </div>
