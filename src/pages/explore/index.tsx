@@ -1,4 +1,3 @@
-import { AiOutlineSetting } from "react-icons/ai";
 import { useClerk, useUser } from "@clerk/nextjs";
 import Head from "next/head";
 import { LoadingPage } from "~/components/ui/loading";
@@ -20,7 +19,7 @@ const ExploreShowcases = () => {
   );
 };
 
-const Explore = () => {
+const ExplorePage = () => {
   const { user } = useUser();
   const isUserSignedIn = useUser().isSignedIn;
   const clerk = useClerk();
@@ -51,4 +50,4 @@ const Explore = () => {
   );
 };
 
-export default Explore;
+export default ExplorePage;

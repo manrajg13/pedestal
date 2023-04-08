@@ -54,6 +54,20 @@ export const showcasesRouter = createTRPCRouter({
     return addUserDatatoShowcases(showcases);
   }),
 
+  getShowcaseById: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(({ ctx, input }) =>
+      ctx.prisma.showcase.findFirst({
+        where: {
+          id: input.id,
+        },
+      })
+    ),
+
   getShowcaseByUserId: publicProcedure
     .input(
       z.object({

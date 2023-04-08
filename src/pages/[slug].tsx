@@ -93,7 +93,7 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
   );
 };
 
-import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import { createServerSideHelpers } from "@trpc/react-query/server";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import superjson from "superjson";
@@ -102,7 +102,7 @@ import { LoadingPage } from "~/components/ui/loading";
 import { ShowcaseView } from "~/components/showcaseview";
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const ssg = createProxySSGHelpers({
+  const ssg = createServerSideHelpers({
     router: appRouter,
     ctx: { prisma, userId: null },
     transformer: superjson, // optional - adds superjson serialization
