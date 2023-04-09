@@ -27,14 +27,13 @@ const Showcase: NextPage = () => {
       <Link
         href="some_link"
         key={i}
-        className="group relative my-2 h-[320px] border border-white-100 p-8 text-white-100 shadow-lg transition hover:-translate-y-1
+        className="group relative my-2 h-[280px] border border-white-100 p-7 text-white-100 shadow-lg transition hover:-translate-y-1
 													hover:border-yellow-200 hover:text-yellow-200"
       >
-        <FaFolderOpen className="mb-6 text-[55px]" />
+        <FaFolderOpen className="mb-4 text-5xl" />
         <h1 className="text-lg font-bold leading-3">PROJECT NAME</h1>
         <p className="mt-6 leading-4 text-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          A small description of the project or some comments, I have no idea.
         </p>
         <div className="absolute inline-flex text-sm bottom-9">
           <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2 text-white-100 group-hover:bg-yellow-200/[0.2] group-hover:text-yellow-200">
@@ -102,9 +101,9 @@ const Showcase: NextPage = () => {
           }}
           className="mx-auto mt-4 overflow-x-hidden overflow-y-auto border-2 border-yellow-200"
         >
-          <div className="p-6">
+          <div className="p-20 py-14">
             <h1 className="text-2xl text-white-100">Projects</h1>
-            <div className="grid grid-cols-3 gap-4 mt-8">{projects}</div>
+            <div className="grid grid-cols-3 gap-5 mt-8">{projects}</div>
           </div>
         </Resizable>
       </main>
