@@ -62,7 +62,7 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
         <title>{data.username}</title>
       </Head>
       <main className="absolute z-10 w-[100vw] py-4 px-6 md:left-[50%] md:ml-[-400px] md:w-[800px] lg:left-[50%] lg:ml-[-550px] lg:w-[1100px]">
-        <div className="mx-auto mt-24">
+        <div className="mx-auto mt-32">
           <div>
             <Image
               className="mx-auto rounded-full border-white-100/75"

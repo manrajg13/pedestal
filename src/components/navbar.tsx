@@ -8,7 +8,7 @@ export const Navbar = () => {
 
   return (
     <div className="fixed z-40 w-[100vw] bg-gradient-to-b from-black-600 py-4 px-6 lg:left-[50%] lg:ml-[-550px] lg:w-[1100px]">
-      <div className="float-left mt-2 ml-5">
+      <div className="float-left mt-2 ml-2">
         <Link
           className="group absolute min-w-[40px] rounded-sm bg-orange-200 px-[16px] py-[18px]"
           href="/"
