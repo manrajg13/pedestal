@@ -1,4 +1,3 @@
-import { AiOutlineSetting } from "react-icons/ai";
 import { useClerk, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Head from "next/head";
