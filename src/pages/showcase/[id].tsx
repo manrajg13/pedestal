@@ -6,19 +6,52 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import querystring from "querystring";
 import { GoCode } from "react-icons/go";
+import { FaFolderOpen } from "react-icons/fa";
+import Link from "next/link";
 
 const Showcase: NextPage = () => {
   const [width, setWidth] = useState(1050);
   const [height, setHeight] = useState(700);
   const [input, setInput] = useState("");
-
+  const [projectCount, setProjectCount] = useState(1);
   const router = useRouter();
   const queryStr = querystring.stringify(router.query);
+
+  const handleAddProject = () => {
+    setProjectCount(projectCount + 1);
+  };
+
+  const projects = [];
+  for (let i = 0; i < projectCount; i++) {
+    projects.push(
+      <Link
+        href="some_link"
+        key={i}
+        className="group relative my-2 h-[320px] border border-white-100 p-8 text-white-100 shadow-lg transition hover:-translate-y-1
+													hover:border-yellow-200 hover:text-yellow-200"
+      >
+        <FaFolderOpen className="mb-6 text-[55px]" />
+        <h1 className="text-lg font-bold leading-3">PROJECT NAME</h1>
+        <p className="mt-6 leading-4 text-md">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+        <div className="absolute inline-flex text-sm bottom-9">
+          <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2 text-white-100 group-hover:bg-yellow-200/[0.2] group-hover:text-yellow-200">
+            Technologies
+          </p>
+          <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2 text-white-100 group-hover:bg-yellow-200/[0.2] group-hover:text-yellow-200">
+            Used
+          </p>
+        </div>
+      </Link>
+    );
+  }
 
   const { data } = api.showcases.getShowcaseById.useQuery({
     id: queryStr.replace("id=", ""),
   });
-  
+
   useEffect(() => {
     if (data) {
       setInput(data.title);
@@ -33,25 +66,28 @@ const Showcase: NextPage = () => {
         <title>Showcase</title>
       </Head>
       <main className="absolute z-10 my-28 w-[100vw] px-6 py-4 md:left-[50%] md:ml-[-400px] md:w-[800px] lg:left-[50%] lg:ml-[-550px] lg:w-[1100px]">
-        <div className="flex relative">
+        <div className="relative flex">
           <GoCode className="h-[45px] w-[40px] rounded-sm bg-yellow-200 p-2 text-black-600" />
           <div className="ml-3 -mt-1">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="h-[30px] pb-[3px] w-[300px] font-bold rounded-sm border-2 border-black-600 px-[6px] text-[18px] text-yellow-200 bg-yellow-200 hover:border-yellow-200 focus:border-yellow-200 focus:outline-none"
+              className="h-[30px] w-[300px] rounded-sm border-2 border-black-600 bg-yellow-200 px-[6px] pb-[3px] text-[18px] font-bold text-yellow-200 hover:border-yellow-200 focus:border-yellow-200 focus:outline-none"
             />
-            <div className="text-yellow-200 font-semibold">
-              <button className="rounded-sm px-2 hover:bg-yellow-200 hover:text-black-600">
+            <div className="font-semibold text-yellow-200">
+              <button
+                onClick={handleAddProject}
+                className="px-2 rounded-sm hover:bg-yellow-200 hover:text-black-600"
+              >
                 Insert
               </button>
-              <button className="rounded-sm px-2 hover:bg-yellow-200 hover:text-black-600">
+              <button className="px-2 rounded-sm hover:bg-yellow-200 hover:text-black-600">
                 Remove
               </button>
             </div>
           </div>
-          <button className="h-[45px] px-3 rounded-sm font-semibold text-black-600 bg-yellow-200 text-black-600 absolute right-0">
+          <button className="absolute right-0 h-[45px] rounded-sm bg-yellow-200 px-3 font-semibold text-black-600 hover:brightness-75">
             Grab Snippet
           </button>
         </div>
@@ -64,10 +100,11 @@ const Showcase: NextPage = () => {
             setWidth(width + d.width);
             setHeight(height + d.height);
           }}
-          className="mx-auto mt-4 border-2 border-yellow-200"
+          className="mx-auto mt-4 overflow-x-hidden overflow-y-auto border-2 border-yellow-200"
         >
-          <div className="p-8">
-            <h1 className="text-white-100 text-2xl">Projects</h1>
+          <div className="p-6">
+            <h1 className="text-2xl text-white-100">Projects</h1>
+            <div className="grid grid-cols-3 gap-4 mt-8">{projects}</div>
           </div>
         </Resizable>
       </main>
