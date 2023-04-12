@@ -8,6 +8,7 @@ import querystring from "querystring";
 import { GoCode } from "react-icons/go";
 import { FaFolderOpen } from "react-icons/fa";
 import Link from "next/link";
+import Modal from "~/components/ui/Modal";
 
 const Showcase: NextPage = () => {
   const [width, setWidth] = useState(1050);
@@ -16,8 +17,14 @@ const Showcase: NextPage = () => {
   const [projectCount, setProjectCount] = useState(1);
   const router = useRouter();
   const queryStr = querystring.stringify(router.query);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddProject = () => {
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
     setProjectCount(projectCount + 1);
   };
 
@@ -27,7 +34,7 @@ const Showcase: NextPage = () => {
       <Link
         href="some_link"
         key={i}
-        className="group relative my-2 h-[280px] border border-white-100 p-7 text-white-100 shadow-lg transition hover:-translate-y-1
+        className="group relative h-[280px] border border-white-100 p-7 text-white-100 shadow-lg transition hover:-translate-y-1
 													hover:border-yellow-200 hover:text-yellow-200"
       >
         <FaFolderOpen className="mb-4 text-5xl" />
@@ -64,7 +71,7 @@ const Showcase: NextPage = () => {
       <Head>
         <title>Showcase</title>
       </Head>
-      <main className="absolute z-10 my-28 w-[100vw] px-6 py-4 md:left-[50%] md:ml-[-400px] md:w-[800px] lg:left-[50%] lg:ml-[-550px] lg:w-[1100px]">
+      <main className="absolute left-[50%] my-28 ml-[-700px] w-[1400px] px-6 py-4">
         <div className="relative flex">
           <GoCode className="h-[45px] w-[40px] rounded-sm bg-yellow-200 p-2 text-black-600" />
           <div className="ml-3 -mt-1">
@@ -76,11 +83,15 @@ const Showcase: NextPage = () => {
             />
             <div className="font-semibold text-yellow-200">
               <button
-                onClick={handleAddProject}
+                onClick={handleModalOpen}
                 className="px-2 rounded-sm hover:bg-yellow-200 hover:text-black-600"
               >
                 Insert
               </button>
+              <Modal
+                isOpen={isModalOpen}
+                onClose={handleModalClose}
+              />
               <button className="px-2 rounded-sm hover:bg-yellow-200 hover:text-black-600">
                 Remove
               </button>
@@ -91,19 +102,18 @@ const Showcase: NextPage = () => {
           </button>
         </div>
         <Resizable
-          defaultSize={{ width: 1050, height: 700 }}
+          defaultSize={{ width: 1350, height: 700 }}
           minWidth={400}
-          maxWidth={1050}
+          maxWidth={1350}
           minHeight={300}
           onResizeStop={(e, direction, ref, d) => {
             setWidth(width + d.width);
             setHeight(height + d.height);
           }}
-          className="mx-auto mt-4 overflow-x-hidden overflow-y-auto border-2 border-yellow-200"
+          className="mx-auto mt-4 overflow-x-hidden overflow-y-auto bg-black-500/40 scrollbar-hide"
         >
-          <div className="p-20 py-14">
-            <h1 className="text-2xl text-white-100">Projects</h1>
-            <div className="grid grid-cols-3 gap-5 mt-8">{projects}</div>
+          <div className="p-16">
+            <div className="grid grid-cols-4 gap-5">{projects}</div>
           </div>
         </Resizable>
       </main>
