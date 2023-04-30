@@ -29,7 +29,7 @@ const Modal = ({ isOpen, onClose, showcaseId }: ModalProps) => {
     });
 
     onClose()
-  };
+  }
 
   return (
     <>

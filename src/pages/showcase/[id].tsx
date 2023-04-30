@@ -5,8 +5,6 @@ import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { GoCode } from "react-icons/go";
-import { FaFolderOpen } from "react-icons/fa";
-import Link from "next/link";
 import Modal from "~/components/ui/Modal";
 import { LoadingPage } from "~/components/ui/loading";
 import { ProjectView } from "~/components/projectview";
@@ -38,7 +36,6 @@ const Showcase: NextPage = () => {
   const [width, setWidth] = useState(1050);
   const [height, setHeight] = useState(700);
   const [input, setInput] = useState("");
-  const [projectCount] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { asPath } = useRouter();
   const showcaseId = asPath.replace("/showcase/", "");

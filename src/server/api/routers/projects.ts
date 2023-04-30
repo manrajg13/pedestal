@@ -1,4 +1,4 @@
-import { Project } from "@prisma/client";
+import { type Project } from "@prisma/client";
 import { z } from "zod";
 import {
   createTRPCRouter,
@@ -6,9 +6,8 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
-const filterProject = async (projects: Project[]) => {
+const filterProject = (projects: Project[]) => {
   return projects.map((project) => {
-
     return {
       project
     };
