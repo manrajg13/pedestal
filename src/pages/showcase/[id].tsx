@@ -4,20 +4,44 @@ import { Resizable } from "re-resizable";
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
-import querystring from "querystring";
 import { GoCode } from "react-icons/go";
 import { FaFolderOpen } from "react-icons/fa";
 import Link from "next/link";
 import Modal from "~/components/ui/Modal";
+import { LoadingPage } from "~/components/ui/loading";
+import { ProjectView } from "~/components/projectview";
+
+const ShowcaseProjects = (props: { showcaseId: string }) => {
+  const { data, isLoading } = api.projects.getProjectsByShowcaseId.useQuery({
+    showcaseId: props.showcaseId,
+  });
+
+  if (isLoading) return <LoadingPage />;
+  if (!data || data.length === 0)
+    return (
+      <div className="text-center mt-60 text-white-100">
+        This showcase doesn&#39;t have any projects yet, try clicking insert to
+        make one.
+      </div>
+    );
+
+  return (
+    <div className="grid grid-cols-4 gap-5">
+      {data.map((fullProject) => (
+        <ProjectView {...fullProject} key={fullProject.project.id} />
+      ))}
+    </div>
+  );
+};
 
 const Showcase: NextPage = () => {
   const [width, setWidth] = useState(1050);
   const [height, setHeight] = useState(700);
   const [input, setInput] = useState("");
-  const [projectCount, setProjectCount] = useState(1);
-  const router = useRouter();
-  const queryStr = querystring.stringify(router.query);
+  const [projectCount] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { asPath } = useRouter();
+  const showcaseId = asPath.replace("/showcase/", "");
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -25,37 +49,10 @@ const Showcase: NextPage = () => {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    setProjectCount(projectCount + 1);
   };
 
-  const projects = [];
-  for (let i = 0; i < projectCount; i++) {
-    projects.push(
-      <Link
-        href="some_link"
-        key={i}
-        className="group relative h-[280px] border border-white-100 p-7 text-white-100 shadow-lg transition hover:-translate-y-1
-													hover:border-yellow-200 hover:text-yellow-200"
-      >
-        <FaFolderOpen className="mb-4 text-5xl" />
-        <h1 className="text-lg font-bold leading-3">PROJECT NAME</h1>
-        <p className="mt-6 leading-4 text-md">
-          A small description of the project or some comments, I have no idea.
-        </p>
-        <div className="absolute inline-flex text-sm bottom-9">
-          <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2 text-white-100 group-hover:bg-yellow-200/[0.2] group-hover:text-yellow-200">
-            Technologies
-          </p>
-          <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2 text-white-100 group-hover:bg-yellow-200/[0.2] group-hover:text-yellow-200">
-            Used
-          </p>
-        </div>
-      </Link>
-    );
-  }
-
   const { data } = api.showcases.getShowcaseById.useQuery({
-    id: queryStr.replace("id=", ""),
+    id: showcaseId
   });
 
   useEffect(() => {
@@ -84,15 +81,16 @@ const Showcase: NextPage = () => {
             <div className="font-semibold text-yellow-200">
               <button
                 onClick={handleModalOpen}
-                className="px-2 rounded-sm hover:bg-yellow-200 hover:text-black-600"
+                className="rounded-sm px-2 hover:bg-yellow-200 hover:text-black-600"
               >
                 Insert
               </button>
               <Modal
                 isOpen={isModalOpen}
                 onClose={handleModalClose}
+                showcaseId={showcaseId}
               />
-              <button className="px-2 rounded-sm hover:bg-yellow-200 hover:text-black-600">
+              <button className="rounded-sm px-2 hover:bg-yellow-200 hover:text-black-600">
                 Remove
               </button>
             </div>
@@ -110,10 +108,10 @@ const Showcase: NextPage = () => {
             setWidth(width + d.width);
             setHeight(height + d.height);
           }}
-          className="mx-auto mt-4 overflow-x-hidden overflow-y-auto bg-black-500/40 scrollbar-hide"
+          className="mx-auto mt-4 overflow-y-auto overflow-x-hidden bg-black-500/40 scrollbar-hide"
         >
           <div className="p-16">
-            <div className="grid grid-cols-4 gap-5">{projects}</div>
+              <ShowcaseProjects showcaseId={showcaseId} />
           </div>
         </Resizable>
       </main>

@@ -10,7 +10,6 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 type ShowcaseWithUser = RouterOutputs["showcases"]["getAll"][number];
-
 export const ShowcaseView = (props: ShowcaseWithUser) => {
   const { showcase, author } = props;
   return (

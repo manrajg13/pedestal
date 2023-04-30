@@ -12,20 +12,24 @@ datasource db {
 }
 
 model Showcase {
-  id          String   @id @default(cuid())
-  createdOn   DateTime @default(now())
-  title       String   @db.VarChar(60)
-  type        String   @db.VarChar(20)
-  authorId    String   @db.VarChar()
+  id        String   @id @default(cuid())
+  createdOn DateTime @default(now())
+  title     String   @db.VarChar(60)
+  type      String   @db.VarChar(20)
+  authorId  String   @db.VarChar()
 
   @@index([authorId])
 }
 
 model Project {
-  id  String @id @default(cuid())
-  title  String @db.VarChar(60)
+  id          String @id @default(cuid())
+  name        String @db.VarChar(60)
   description String @db.VarChar(500)
-  tags  String @db.VarChar(40)
-  image String @db.VarChar(40)
-  createdOn DateTime @default(now())
+  tag_1       String @db.VarChar(40)
+  tag_2       String @db.VarChar(40)
+  tag_3       String @db.VarChar(40)
+  link        String @db.VarChar(40)
+  showcaseId  String @db.VarChar()
+
+  @@index([showcaseId])
 }
