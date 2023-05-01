@@ -1,15 +1,33 @@
-import { type RouterOutputs } from "~/utils/api";
+import { api, type RouterOutputs } from "~/utils/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { FaFolderOpen } from "react-icons/fa";
 import Link from "next/link";
+import { AiFillCloseSquare } from "react-icons/ai";
 
 dayjs.extend(relativeTime);
 
 type ProjectWithShowcase = RouterOutputs["projects"]["getAll"][number];
+
 export const ProjectView = (props: ProjectWithShowcase) => {
+  const ctx = api.useContext();
+
+  const { mutate } = api.projects.delete.useMutation({
+    onSuccess: () => {
+      void ctx.projects.invalidate();
+    }
+  });
+
   const { project } = props;
+
+  function handleDelete() {
+    mutate({
+      id: project.id,
+    });
+  }
+  
   return (
+    <div className="grid relative">
     <Link
       href="some_link"
       key={project.id}
@@ -37,5 +55,7 @@ export const ProjectView = (props: ProjectWithShowcase) => {
         )}
       </div>
     </Link>
+    <AiFillCloseSquare onClick={handleDelete} className="absolute -top-2 -right-2 text-4xl text-red-100 hover:cursor-pointer hover:brightness-75" />
+    </div>
   );
 };

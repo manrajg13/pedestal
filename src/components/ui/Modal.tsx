@@ -9,7 +9,14 @@ interface ModalProps {
 }
 
 const Modal = ({ isOpen, onClose, showcaseId }: ModalProps) => {
-  const { mutate, isLoading: isPosting } = api.projects.create.useMutation();
+  const ctx = api.useContext();
+
+  const { mutate, isLoading: isPosting } = api.projects.create.useMutation({
+    onSuccess: () => {
+      void ctx.projects.invalidate();
+    }
+  });
+  
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [tag1, setTag1] = useState("");

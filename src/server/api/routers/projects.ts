@@ -9,7 +9,7 @@ import {
 const filterProject = (projects: Project[]) => {
   return projects.map((project) => {
     return {
-      project
+      project,
     };
   });
 };
@@ -24,20 +24,20 @@ export const projectsRouter = createTRPCRouter({
   }),
 
   getProjectsByShowcaseId: publicProcedure
-  .input(
-    z.object({
-      showcaseId: z.string(),
-    })
-  )
-  .query(({ ctx, input }) =>
-    ctx.prisma.project
-      .findMany({
-        where: {
-          showcaseId: input.showcaseId,
-        },
-        take: 100,
+    .input(
+      z.object({
+        showcaseId: z.string(),
       })
-      .then(filterProject)
+    )
+    .query(({ ctx, input }) =>
+      ctx.prisma.project
+        .findMany({
+          where: {
+            showcaseId: input.showcaseId,
+          },
+          take: 100,
+        })
+        .then(filterProject)
     ),
 
   create: privateProcedure
@@ -66,5 +66,19 @@ export const projectsRouter = createTRPCRouter({
       });
 
       return project;
+    }),
+
+  delete: privateProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.project.delete({
+        where: {
+          id: input.id,
+        },
+      });
     }),
 });
