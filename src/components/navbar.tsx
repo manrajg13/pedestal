@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useClerk, useUser } from "@clerk/nextjs";
-import { Dropdown } from "./ui/dropdown";
+import { UserDropdown } from "./ui/userdropdown";
 
 export const Navbar = () => {
   const clerk = useClerk();
@@ -34,7 +34,7 @@ export const Navbar = () => {
           </span>
         )}
         <div className="flex py-2">
-          {isUserSignedIn && <Dropdown />}
+          {isUserSignedIn && <UserDropdown />}
         </div>
       </div>
     </div>

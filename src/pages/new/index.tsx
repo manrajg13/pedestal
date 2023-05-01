@@ -145,7 +145,7 @@ const CreateShowCase = () => {
         </li>
       </ul>
       <button
-        className="mb-2 w-full rounded bg-yellow-200 p-3 text-sm text-black-500 hover:brightness-75"
+        className="mb-2 w-full rounded bg-yellow-200 p-3 text-sm text-black-600 hover:brightness-75"
         type="submit"
         disabled={isPosting}
       >

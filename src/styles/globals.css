@@ -14,3 +14,7 @@
 input {
   -webkit-background-clip: text;
 }
+
+input[type="color"] {
+  cursor: pointer;
+}

@@ -27,7 +27,7 @@ const UserProfileImgUrl = () => {
   );
 };
 
-export const Dropdown = () => {
+export const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const { signOut } = useClerk();

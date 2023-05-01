@@ -11,12 +11,12 @@ interface ModalProps {
 const Modal = ({ isOpen, onClose, showcaseId }: ModalProps) => {
   const ctx = api.useContext();
 
-  const { mutate, isLoading: isPosting } = api.projects.create.useMutation({
+  const { mutate } = api.projects.create.useMutation({
     onSuccess: () => {
       void ctx.projects.invalidate();
     }
   });
-  
+
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [tag1, setTag1] = useState("");
@@ -122,7 +122,7 @@ const Modal = ({ isOpen, onClose, showcaseId }: ModalProps) => {
                   className="inline-flex w-full justify-center bg-yellow-200 px-4 py-[10px] text-sm font-semibold hover:brightness-75"
                   onClick={handleOnSave}
                 >
-                  Save
+                  Insert
                 </button>
               </div>
             </div>
