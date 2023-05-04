@@ -62,7 +62,7 @@ export const ProjectView = (props: ProjectWithShowcase) => {
                 transition hover:brightness-125"
     >
       <FaFolderOpen style={iconStyle} className="mb-4" />
-      <h1 style={titleStyle} className="font-bold leading-3">{project.name}</h1>
+      <h1 style={titleStyle} className="font-bold leading-4">{project.name}</h1>
       <p style={descStyle} className="mt-6 break-all leading-4">{project.description}</p>
       <div style={linkStyle} className="absolute bottom-9 inline-flex">
         {project.tag_1 && (
@@ -70,12 +70,12 @@ export const ProjectView = (props: ProjectWithShowcase) => {
             {project.tag_1}
           </p>
         )}
-        {project.tag_1 && (
+        {project.tag_2 && (
           <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2">
             {project.tag_2}
           </p>
         )}
-        {project.tag_1 && (
+        {project.tag_3 && (
           <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2">
             {project.tag_3}
           </p>

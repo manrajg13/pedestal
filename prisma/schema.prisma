@@ -47,7 +47,7 @@ model Project {
   tag_1       String @db.VarChar(40)
   tag_2       String @db.VarChar(40)
   tag_3       String @db.VarChar(40)
-  link        String @db.VarChar(40)
+  link        String @db.VarChar(100)
   showcaseId  String @db.VarChar()
 
   @@index([showcaseId])
