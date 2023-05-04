@@ -35,6 +35,13 @@ const Modal = ({ isOpen, onClose, showcaseId }: ModalProps) => {
       showcaseId: showcaseId,
     });
 
+    setName("")
+    setDesc("")
+    setTag1("")
+    setTag2("")
+    setTag3("")
+    setLink("")
+
     onClose()
   }
 

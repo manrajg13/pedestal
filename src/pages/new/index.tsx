@@ -11,7 +11,7 @@ import Head from "next/head";
 import { RiPolaroid2Fill } from "react-icons/ri";
 
 const CreateShowCase = () => {
-  const { mutate, isLoading: isPosting } = api.showcases.create.useMutation();
+  const { mutate } = api.showcases.create.useMutation();
   const [input, setInput] = useState("");
   const [selected, setSelected] = useState("code");
 
@@ -40,9 +40,28 @@ const CreateShowCase = () => {
       return;
     }
 
-    mutate({ title: input, type: selected });
+    mutate({ 
+      title: input, 
+      type: selected,
+      c_background: "#fff",
+      c_width: 1350,
+      c_height: 700,
+      c_gap: 20,
+      c_cols: 4,
+      p_border_color: "#fff",
+      p_background: "#fff",
+      p_border_weight: 1,
+      p_border_roundness: 1,
+      p_height: 280,
+      t_icon: "#fff",
+      t_text_color: "#fff",
+      t_icon_size: 48,
+      t_title_size: 18,
+      t_description_size: 16,
+      t_link_size: 14,
+    });
 
-    window.location.href = "/dashboard";
+    window.location.href = "/dashboard"
   }
 
   return (
@@ -55,7 +74,6 @@ const CreateShowCase = () => {
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        disabled={isPosting}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             handleSubmit;
@@ -147,7 +165,6 @@ const CreateShowCase = () => {
       <button
         className="mb-2 w-full rounded bg-yellow-200 p-3 text-sm text-black-600 hover:brightness-75"
         type="submit"
-        disabled={isPosting}
       >
         Create new project
       </button>

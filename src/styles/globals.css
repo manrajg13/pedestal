@@ -17,4 +17,13 @@ input {
 
 input[type="color"] {
   cursor: pointer;
+  margin-right: 0.5rem;
+  height: 20px;
+  width: 90px;
+}
+
+input[type="range"] {
+  margin-right: 0.5rem;
+  height: 20px;
+  width: 90px;
 }

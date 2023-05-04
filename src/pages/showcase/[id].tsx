@@ -14,7 +14,6 @@ import { BsPlus } from "react-icons/bs";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { AiFillEdit } from "react-icons/ai";
-import { BsFillDiamondFill } from "react-icons/bs";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { EditDropdown } from "~/components/ui/editdropdown";
 
@@ -67,7 +66,7 @@ const Showcase: NextPage = () => {
   const showcaseId = asPath.replace("/showcase/", "");
   const isUserSignedIn = useUser().isSignedIn;
   const clerk = useClerk();
-  const [showDropdown, setShowDropdown] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const { data } = api.showcases.getShowcaseById.useQuery({
     id: showcaseId,
@@ -99,15 +98,16 @@ const Showcase: NextPage = () => {
               Created {dayjs(data.createdOn).fromNow()}
             </p>
           </div>
-          <button onClick={() => setShowDropdown(!showDropdown)} className="absolute bottom-0 right-0 my-auto flex rounded-sm border-[1px] border-yellow-200 py-1 px-3 text-yellow-200 hover:bg-yellow-200/10">
+          <button
+            onClick={() => setShowDropdown(!showDropdown)}
+            className="absolute bottom-0 right-0 my-auto flex rounded-sm border-[1px] border-yellow-200 py-1 px-3 text-yellow-200 hover:bg-yellow-200/10"
+          >
             <AiFillEdit className="mt-1 mr-2" />
             <p>Edit</p>
           </button>
         </div>
-        
-        {showDropdown &&
-          <EditDropdown />
-        }
+
+        {showDropdown && <EditDropdown showcase={data} />}
 
         <Resizable
           defaultSize={{ width: 1350, height: 700 }}
@@ -120,8 +120,6 @@ const Showcase: NextPage = () => {
           }}
           className="mx-auto mt-4 overflow-hidden bg-black-500/40 scrollbar-hide"
         >
-          <BsFillDiamondFill className="absolute -right-7 -bottom-7 scale-x-[-1] text-5xl text-white-100/50" />
-          <BsFillDiamondFill className="absolute -left-7 -bottom-7 scale-x-[-1] text-5xl text-white-100/50" />
           <div className="p-16">
             <ShowcaseProjects showcaseId={showcaseId} />
           </div>

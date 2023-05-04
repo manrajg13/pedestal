@@ -18,6 +18,25 @@ model Showcase {
   type      String   @db.VarChar(20)
   authorId  String   @db.VarChar()
 
+  c_background String @db.VarChar(20)
+  c_width      Int    @db.Integer
+  c_height     Int    @db.Integer
+  c_gap        Int    @db.Integer
+  c_cols       Int    @db.Integer
+
+  p_border_color     String @db.VarChar(20)
+  p_background       String @db.VarChar(20)
+  p_border_weight    Int    @db.Integer
+  p_border_roundness Int    @db.Integer
+  p_height           Int    @db.Integer
+
+  t_icon             String @db.VarChar(20)
+  t_text_color       String @db.VarChar(20)
+  t_icon_size        Int    @db.Integer
+  t_title_size       Int    @db.Integer
+  t_description_size Int    @db.Integer
+  t_link_size        Int    @db.Integer
+
   @@index([authorId])
 }
 
