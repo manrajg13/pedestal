@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { Resizable } from "re-resizable";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
@@ -16,12 +15,13 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { AiFillEdit } from "react-icons/ai";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { EditDropdown } from "~/components/ui/editdropdown";
+import { type Showcase } from "@prisma/client";
 
 dayjs.extend(relativeTime);
 
-const ShowcaseProjects = (props: { showcaseId: string }) => {
+const ShowcaseProjects = (props: { showcase: Showcase }) => {
   const { data, isLoading } = api.projects.getProjectsByShowcaseId.useQuery({
-    showcaseId: props.showcaseId,
+    showcaseId: props.showcase.id,
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { asPath } = useRouter();
@@ -37,8 +37,13 @@ const ShowcaseProjects = (props: { showcaseId: string }) => {
 
   if (isLoading) return <LoadingPage />;
 
+  const containerStyle = {
+    "gap": props.showcase.c_gap,
+    "grid-template-columns": "repeat(" + props.showcase.c_cols.toString() + ", minmax(0, 1fr))",
+  }
+
   return (
-    <div className="grid grid-cols-4 gap-5">
+    <div style={containerStyle} className="grid">
       {data &&
         data.map((fullProject) => (
           <ProjectView {...fullProject} key={fullProject.project.id} />
@@ -60,8 +65,6 @@ const ShowcaseProjects = (props: { showcaseId: string }) => {
 };
 
 const Showcase: NextPage = () => {
-  const [width, setWidth] = useState(1050);
-  const [height, setHeight] = useState(700);
   const { asPath } = useRouter();
   const showcaseId = asPath.replace("/showcase/", "");
   const isUserSignedIn = useUser().isSignedIn;
@@ -75,6 +78,12 @@ const Showcase: NextPage = () => {
   if (!data) return null;
 
   if (!isUserSignedIn) return <div onLoad={void clerk.openSignIn({})}></div>;
+
+  const containerStyle = {
+    "background": data.c_background,
+    "width": data.c_width,
+    "height": data.c_height,
+  }
 
   return (
     <>
@@ -109,21 +118,11 @@ const Showcase: NextPage = () => {
 
         {showDropdown && <EditDropdown showcase={data} />}
 
-        <Resizable
-          defaultSize={{ width: 1350, height: 700 }}
-          minWidth={400}
-          maxWidth={1350}
-          minHeight={300}
-          onResizeStop={(e, direction, ref, d) => {
-            setWidth(width + d.width);
-            setHeight(height + d.height);
-          }}
-          className="mx-auto mt-4 overflow-hidden bg-black-500/40 scrollbar-hide"
-        >
+        <div style={containerStyle} className="mx-auto w-[1350px] h-[700px] mt-4 overflow-hidden bg-black-500/40 scrollbar-hide">
           <div className="p-16">
-            <ShowcaseProjects showcaseId={showcaseId} />
+            <ShowcaseProjects showcase={data} />
           </div>
-        </Resizable>
+        </div>
       </main>
     </>
   );

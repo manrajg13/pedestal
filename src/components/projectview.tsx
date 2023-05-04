@@ -4,7 +4,6 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { FaFolderOpen } from "react-icons/fa";
 import Link from "next/link";
 import { AiFillCloseSquare } from "react-icons/ai";
-import { data } from "jquery";
 
 dayjs.extend(relativeTime);
 
@@ -59,25 +58,25 @@ export const ProjectView = (props: ProjectWithShowcase) => {
     <Link
       href={project.link}
       style={projectStyle}
-      className="group relative p-7 text-white-100 shadow-lg 
-                transition hover:brightness-75"
+      className="group relative p-7 shadow-lg 
+                transition hover:brightness-125"
     >
       <FaFolderOpen style={iconStyle} className="mb-4" />
-      <h1 className="text-lg font-bold leading-3">{project.name}</h1>
-      <p className="mt-6 break-all leading-4">{project.description}</p>
-      <div style={linkStyle} className="absolute bottom-9 inline-flex text-sm">
+      <h1 style={titleStyle} className="font-bold leading-3">{project.name}</h1>
+      <p style={descStyle} className="mt-6 break-all leading-4">{project.description}</p>
+      <div style={linkStyle} className="absolute bottom-9 inline-flex">
         {project.tag_1 && (
-          <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2 text-white-100">
+          <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2">
             {project.tag_1}
           </p>
         )}
         {project.tag_1 && (
-          <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2 text-white-100">
+          <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2">
             {project.tag_2}
           </p>
         )}
         {project.tag_1 && (
-          <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2 text-white-100">
+          <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2">
             {project.tag_3}
           </p>
         )}
