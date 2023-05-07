@@ -47,7 +47,7 @@ export const EditDropdown = (props: { showcase: Showcase }) => {
 
   if (!data) return null
 
-  let snippet:string = `<div className="grid gap-4 grid-cols-4">`
+  let snippet = `<div className="grid gap-4 grid-cols-4">`
 
   data.map((fullProject) => (
     snippet = snippet + `
