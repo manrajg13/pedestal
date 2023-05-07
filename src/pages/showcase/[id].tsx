@@ -6,7 +6,8 @@ import { useRouter } from "next/router";
 import { RiPolaroid2Fill } from "react-icons/ri";
 import { FaBrush } from "react-icons/fa";
 import { GoCode } from "react-icons/go";
-import Modal from "~/components/ui/Modal";
+import { AiFillEye } from "react-icons/ai";
+import Modal from "~/components/ui/projectModal";
 import { LoadingPage } from "~/components/ui/loading";
 import { ProjectView } from "~/components/projectview";
 import { BsPlus } from "react-icons/bs";
@@ -19,13 +20,14 @@ import { type Showcase } from "@prisma/client";
 
 dayjs.extend(relativeTime);
 
-const ShowcaseProjects = (props: { showcase: Showcase }) => {
+const ShowcaseProjects = (props: { showcase: Showcase; preview: boolean }) => {
   const { data, isLoading } = api.projects.getProjectsByShowcaseId.useQuery({
     showcaseId: props.showcase.id,
   });
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { asPath } = useRouter();
   const showcaseId = asPath.replace("/showcase/", "");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -38,23 +40,30 @@ const ShowcaseProjects = (props: { showcase: Showcase }) => {
   if (isLoading) return <LoadingPage />;
 
   const containerStyle = {
-    "gap": props.showcase.c_gap,
-    "grid-template-columns": "repeat(" + props.showcase.c_cols.toString() + ", minmax(0, 1fr))",
-  }
+    gap: props.showcase.c_gap,
+    gridTemplateColumns:
+      "repeat(" + props.showcase.c_cols.toString() + ", minmax(0, 1fr))",
+  };
 
   return (
     <div style={containerStyle} className="grid">
       {data &&
         data.map((fullProject) => (
-          <ProjectView {...fullProject} key={fullProject.project.id} />
+          <ProjectView
+            project={fullProject}
+            preview={props.preview}
+            key={fullProject.project.id}
+          />
         ))}
-      <div
-        onClick={handleModalOpen}
-        className="flex h-[280px] border border-dashed border-white-100/50 text-8xl text-white-100/50 shadow-lg transition
-                    hover:cursor-pointer hover:border-white-100 hover:text-white-100"
-      >
-        <BsPlus className="m-auto" />
-      </div>
+      {!props.preview && (
+        <div
+          onClick={handleModalOpen}
+          className="flex h-[280px] border border-dashed border-white-100/50 text-8xl text-white-100/50 shadow-lg transition
+                      hover:cursor-pointer hover:border-white-100 hover:text-white-100"
+        >
+          <BsPlus className="m-auto" />
+        </div>
+      )}
       <Modal
         isOpen={isModalOpen}
         onClose={handleModalClose}
@@ -70,6 +79,7 @@ const Showcase: NextPage = () => {
   const isUserSignedIn = useUser().isSignedIn;
   const clerk = useClerk();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   const { data } = api.showcases.getShowcaseById.useQuery({
     id: showcaseId,
@@ -80,10 +90,10 @@ const Showcase: NextPage = () => {
   if (!isUserSignedIn) return <div onLoad={void clerk.openSignIn({})}></div>;
 
   const containerStyle = {
-    "background": data.c_background,
-    "width": data.c_width,
-    "height": data.c_height,
-  }
+    background: data.c_background,
+    width: data.c_width,
+    height: data.c_height,
+  };
 
   return (
     <>
@@ -107,20 +117,34 @@ const Showcase: NextPage = () => {
               Created {dayjs(data.createdOn).fromNow()}
             </p>
           </div>
-          <button
-            onClick={() => setShowDropdown(!showDropdown)}
-            className="absolute bottom-0 right-0 my-auto flex rounded-sm border-[1px] border-yellow-200 py-1 px-3 text-yellow-200 hover:bg-yellow-200/10"
-          >
-            <AiFillEdit className="mt-1 mr-2" />
-            <p>Edit</p>
-          </button>
+
+          <div className="absolute bottom-0 right-0 my-auto flex ">
+            <button
+              onClick={() => setShowDropdown(!showDropdown)}
+              className="flex rounded-sm border-[1px] border-yellow-200 py-1 px-3 text-yellow-200 hover:bg-yellow-200/10"
+            >
+              <AiFillEdit className="mt-1 mr-2" />
+              <p>Edit</p>
+            </button>
+
+            <button
+              onClick={() => setShowPreview(!showPreview)}
+              className="ml-2 flex rounded-sm border-[1px] border-yellow-200 py-1 px-3 text-yellow-200 hover:bg-yellow-200/10"
+            >
+              <AiFillEye className="mt-1 mr-2" />
+              <p>Preview</p>
+            </button>
+          </div>
         </div>
 
         {showDropdown && <EditDropdown showcase={data} />}
 
-        <div style={containerStyle} className="mx-auto w-[1350px] h-[700px] mt-4 overflow-hidden bg-black-500/40 scrollbar-hide">
+        <div
+          style={containerStyle}
+          className="mx-auto mt-4 h-[700px] w-[1350px] overflow-x-hidden bg-black-500/40 scrollbar-hide"
+        >
           <div className="p-16">
-            <ShowcaseProjects showcase={data} />
+            <ShowcaseProjects showcase={data} preview={showPreview} />
           </div>
         </div>
       </main>

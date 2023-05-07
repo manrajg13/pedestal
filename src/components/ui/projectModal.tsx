@@ -2,13 +2,13 @@ import { useState } from "react";
 import { MdClose } from "react-icons/md";
 import { api } from "~/utils/api";
 
-interface ModalProps {
+interface projectModalProps {
   isOpen: boolean;
   onClose: () => void;
   showcaseId: string;
 }
 
-const Modal = ({ isOpen, onClose, showcaseId }: ModalProps) => {
+const Modal = ({ isOpen, onClose, showcaseId }: projectModalProps) => {
   const ctx = api.useContext();
 
   const { mutate } = api.projects.create.useMutation({

@@ -1,42 +1,80 @@
 import { type Showcase } from "@prisma/client";
 import { useState } from "react";
 import { api } from "~/utils/api";
+import Modal from "./snippetModal";
 
 export const EditDropdown = (props: { showcase: Showcase }) => {
   const ctx = api.useContext();
   const { mutate } = api.showcases.update.useMutation({
     onSuccess: () => {
       void ctx.showcases.invalidate();
-    }
+    },
   });
-  const data = props.showcase;
+  const showcase = props.showcase;
+  const { data } = api.projects.getProjectsByShowcaseId.useQuery({
+    showcaseId: props.showcase.id,
+  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [cBackground, setCBackground] = useState(data.c_background);
-  const [cWidth, setCWidth] = useState(data.c_width);
-  const [cHeight, setCHeight] = useState(data.c_height);
-  const [cGapSize, setCGapSize] = useState(data.c_gap);
-  const [cColumns, setCColumns] = useState(data.c_cols);
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
 
-  const [pBorderColor, setPBorderColor] = useState(data.p_border_color);
-  const [pBackground, setPBackground] = useState(data.p_background);
-  const [pBorderWeight, setPBorderWeight] = useState(data.p_border_weight);
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const [cBackground, setCBackground] = useState(showcase.c_background);
+  const [cWidth, setCWidth] = useState(showcase.c_width);
+  const [cHeight, setCHeight] = useState(showcase.c_height);
+  const [cGapSize, setCGapSize] = useState(showcase.c_gap);
+  const [cColumns, setCColumns] = useState(showcase.c_cols);
+
+  const [pBorderColor, setPBorderColor] = useState(showcase.p_border_color);
+  const [pBackground, setPBackground] = useState(showcase.p_background);
+  const [pBorderWeight, setPBorderWeight] = useState(showcase.p_border_weight);
   const [pBorderRoundness, setPBorderRoundness] = useState(
-    data.p_border_roundness
+    showcase.p_border_roundness
   );
-  const [pHeight, setPHeight] = useState(data.p_height);
+  const [pHeight, setPHeight] = useState(showcase.p_height);
 
-  const [tIconColor, setTIconColor] = useState(data.t_icon);
-  const [tTextColor, setTColor] = useState(data.t_text_color);
-  const [tIconSize, setTIconSize] = useState(data.t_icon_size);
-  const [tTitleSize, setTTitleSize] = useState(data.t_title_size);
-  const [tDescSize, setTDescSize] = useState(data.t_description_size);
-  const [tLinkSize, setTLinkSize] = useState(data.t_link_size);
+  const [tIconColor, setTIconColor] = useState(showcase.t_icon);
+  const [tTextColor, setTColor] = useState(showcase.t_text_color);
+  const [tIconSize, setTIconSize] = useState(showcase.t_icon_size);
+  const [tTitleSize, setTTitleSize] = useState(showcase.t_title_size);
+  const [tDescSize, setTDescSize] = useState(showcase.t_description_size);
+  const [tLinkSize, setTLinkSize] = useState(showcase.t_link_size);
+
+  if (!data) return null
+
+  let snippet:string = `<div className="grid gap-4 grid-cols-4">`
+
+  data.map((fullProject) => (
+    snippet = snippet + `
+  <div className="grid relative">
+    <Link
+      href="${fullProject.project.link}"
+      className="group relative bg-[${showcase.p_background}] h-[${showcase.c_height}px] border-[${showcase.p_border_color}] border-[${showcase.p_border_weight}px] rounded-[${showcase.p_border_roundness}px] p-7 shadow-lg transition hover:brightness-125">
+      <FaFolderOpen className="mb-4 text-[${showcase.t_icon}] text-[${showcase.t_icon_size}px]" />
+      <h1 className="font-bold leading-4 text-[${showcase.t_title_size}px]">${fullProject.project.name}</h1>
+      <p className="mt-6 break-all leading-4 text-[${showcase.t_description_size}px]">${fullProject.project.description}</p>
+      <div className="absolute bottom-9 inline-flex text-[${showcase.t_link_size}px]">${fullProject.project.tag_1 && `
+        <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2">${fullProject.project.tag_1}</p>`}${fullProject.project.tag_2 && `
+        <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2">${fullProject.project.tag_2}</p>`}${fullProject.project.tag_3 && `  
+        <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2">${fullProject.project.tag_3}</p>`}
+      </div>
+    </Link>
+  </div>`
+  ))
+
+    snippet = snippet + `
+</div>`
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     mutate({
-      id: data.id,
+      id: showcase.id,
       c_background: cBackground,
       c_width: cWidth,
       c_height: cHeight,
@@ -53,11 +91,14 @@ export const EditDropdown = (props: { showcase: Showcase }) => {
       t_title_size: tTitleSize,
       t_description_size: tDescSize,
       t_link_size: tLinkSize,
-    })
+    });
   }
 
   return (
-    <form onSubmit={handleSubmit} className="absolute right-6 z-20 mt-4 w-[300px] border-white-100/25 bg-black-500/70 p-6 text-sm font-semibold text-white-100">
+    <form
+      onSubmit={handleSubmit}
+      className="absolute right-6 z-20 mt-4 w-[300px] border-white-100/25 bg-black-500/70 p-6 text-sm font-semibold text-white-100"
+    >
       <p className="mb-4 text-base font-bold">Customize</p>
 
       <p>Container</p>
@@ -234,9 +275,21 @@ export const EditDropdown = (props: { showcase: Showcase }) => {
           <p>Link Size</p>
         </div>
 
-        <button type="submit" className="mt-6 w-full bg-yellow-200 p-2 pb-3 hover:brightness-75">
+        <button
+          type="submit"
+          className="mt-6 w-full bg-yellow-200 p-2 pb-3 hover:brightness-75"
+        >
           Apply
         </button>
+
+        <button
+          onClick={handleModalOpen}
+          className="mt-2 w-full bg-yellow-200 p-2 pb-3 hover:brightness-75"
+        >
+          Get Snippet
+        </button>
+
+        <Modal isOpen={isModalOpen} onClose={handleModalClose} code={snippet} />
       </div>
     </form>
   );

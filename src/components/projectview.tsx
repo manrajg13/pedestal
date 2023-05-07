@@ -9,9 +9,9 @@ dayjs.extend(relativeTime);
 
 type ProjectWithShowcase = RouterOutputs["projects"]["getAll"][number];
 
-export const ProjectView = (props: ProjectWithShowcase) => {
+export const ProjectView = (props: {project: ProjectWithShowcase, preview: boolean}) => {
   const ctx = api.useContext();
-  const { project } = props;
+  const { project } = props.project;
   const { data } = api.showcases.getShowcaseById.useQuery({id: project.showcaseId})
 
   if (!data) return null
@@ -31,8 +31,8 @@ export const ProjectView = (props: ProjectWithShowcase) => {
   const projectStyle = {
     "height": data.p_height.toString() + "px",
     "border": data.p_border_weight.toString() + "px solid" + data.p_border_color.toString(),
-    "background-color": data.p_background,
-    "border-radius": data.p_border_roundness.toString() + "px",
+    "backgroundColor": data.p_background,
+    "borderRadius": data.p_border_roundness.toString() + "px",
     "color": data.t_text_color,
   }
 
@@ -63,7 +63,7 @@ export const ProjectView = (props: ProjectWithShowcase) => {
     >
       <FaFolderOpen style={iconStyle} className="mb-4" />
       <h1 style={titleStyle} className="font-bold leading-4">{project.name}</h1>
-      <p style={descStyle} className="mt-6 break-all leading-4">{project.description}</p>
+      <p style={descStyle} className="mt-6 break-words leading-4">{project.description}</p>
       <div style={linkStyle} className="absolute bottom-9 inline-flex">
         {project.tag_1 && (
           <p className="mr-1 bg-white-100/[0.2] p-[3px] px-2">
@@ -82,7 +82,9 @@ export const ProjectView = (props: ProjectWithShowcase) => {
         )}
       </div>
     </Link>
-    <AiFillCloseSquare onClick={handleDelete} className="absolute -top-2 -right-2 text-4xl text-red-100 hover:cursor-pointer hover:brightness-75" />
+    {!props.preview &&
+      <AiFillCloseSquare onClick={handleDelete} className="absolute -top-2 -right-2 text-4xl text-red-100 hover:cursor-pointer hover:brightness-75" />
+    }
     </div>
   );
 };
